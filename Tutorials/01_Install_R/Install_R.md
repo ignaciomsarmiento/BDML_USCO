@@ -1,0 +1,120 @@
+---
+title: "Brief Introduction to R Install"
+author:
+  name: Ignacio Sarmiento-Barbieri
+  affiliation: Universidad de los Andes
+output:
+  html_document:
+    theme: simplex
+    highlight: tango
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    keep_md: yes
+  word_document:
+    toc: yes
+    toc_depth: '4'
+---
+
+
+
+
+
+Welcome to this e-Tutorial, on why you should use `R` and how to install it.[^fn-1] 
+
+
+[^fn-1]: The usual disclaimers apply. If you have comments, suggestions, etc. please send me a `Slack`.
+
+# What's R and why use it?
+
+R is a free, open-source, and object-oriented language. Free and open-source means that anyone is free to use, redistribute and change the software in any way. Moreover, "R is  'GNU S', a freely available language and environment for statistical computing and graphics which provides a wide variety of statistical and graphical techniques." (<http://cran.r-project.org>)
+
+
+There are lots of software out there to do data analysis that are prettier and seem more accessible than R, so why should I invest in learning R? 
+
+- As I said, R is an investment, not a waste of time. There are three characteristics of R that make it worthwhile learning it. 
+- It is also free. Much fancier-looking software used today is quite expensive, but R is free and will always be free. 
+- R  is a language, which means is that you don't only get to use the functions that come in the software, but you can create your own (just to get an overview of the power of the R language, you can take a look at [Roger Koenker's Quantile Regression package](<http://cran.r-project.org/web/packages/quantreg/index.html>)). 
+- The last reason that I think R is worth your while, is that R is extremely well supported. If you have a question, you can just [google](<http://www.google.com>) it, post it to StackOverflow](<http://stackoverflow.com/>) or use [R-blogger](<http://www.r-bloggers.com/>)./ 
+
+If you are not convinced yet, just can type "why to use the R language" in [google](<http://www.google.com>), and I think the results will speak by themselves.
+
+
+# Downloading and Installing R 
+
+You can obtain a free R copy on CRAN (Comprehensive R Archive Network) by clicking on <http://cran.r-project.org> and choosing your appropriate operating system. Check the following `.gif` on how to do it:
+
+
+
+![](aux/Download_R.gif)
+
+
+
+## The R Interface and Rstudio
+
+After downloading R, you can work at least two ways: using the graphical interface or working in batch mode. Since this is just an introduction and you are reading it, you will likely use a graphical interface. After you have mastered the art of scripting in R, or if you are brave enough, you can try running your scripts in batch mode.
+
+When using R interactively or with scripts, you can use a graphical user interface (GUI). Their standard R distribution comes with a friendly GUI. When you install R it will be installed and a direct access icon create on your desktop.
+
+Another option, and the one I'll use in the course, is  [RStudio](https://www.rstudio.com/), which is also free and open-sourced. You can install it by going to their website and downloading and following their instructions:
+
+
+
+
+![](aux/Download_Rstudio.gif)
+
+# First steps in R
+
+The next step is learning the language's syntax, which means learning its rules. After you open the `RGUI` or [RStudio](https://www.rstudio.com/), you are going to see the R console, which displays the results of your analysis, or any messages associated with the code that you entered in the command line (after the arrow ">").
+
+For example, we can use R as a calculator. You can type arithmetical expressions at the prompt (`>`):
+
+
+```r
+    2 + 2
+```
+
+```
+[1] 4
+```
+
+or
+
+
+```r
+    log(1)
+```
+
+```
+[1] 0
+```
+
+The [1] indicates that it is the first result from the command and, in this case, the only one. You can also type something with multiple values, for example, a sequence of integers from 10 to 40:
+ 
+ 
+
+```r
+    10:40
+```
+
+```
+ [1] 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34
+[26] 35 36 37 38 39 40
+```
+
+The first line starts with the first return value, labeled [1]; the second line begins with the 26th, which is labeled [26].
+
+
+To quit your session, just type:
+
+
+```r
+    q()
+```
+
+
+## Next Steps
+
+In the first class, I'll go more in-depth on working with R. If you have any questions or trouble installing it, feel free to send me a `Slack`
+
+
