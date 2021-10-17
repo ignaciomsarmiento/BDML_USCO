@@ -1,9 +1,12 @@
 ---
-title: "Brief Introduction to R Install"
+title: "Instalando R y dando los primeros pasos"
 author:
   name: Ignacio Sarmiento-Barbieri
   affiliation: Universidad de los Andes
 output:
+  word_document:
+    toc: yes
+    toc_depth: '4'
   html_document:
     theme: simplex
     highlight: tango
@@ -11,9 +14,6 @@ output:
     toc_depth: 4
     toc_float: yes
     keep_md: yes
-  word_document:
-    toc: yes
-    toc_depth: '4'
 ---
 
 ```{r setup, include=FALSE}
@@ -22,84 +22,127 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi=300)
 
 
 
-Welcome to this e-Tutorial, on why you should use `R` and how to install it.[^fn-1] 
+Bienvenidos a este e-Tutorial, en el que voy a cubrir porque deberías usar `R`, como instalarlo, y dar tus primeros pasos
+[^fn-1] 
 
 
-[^fn-1]: The usual disclaimers apply. If you have comments, suggestions, etc. please send me a `Slack`.
+[^fn-1]: Aplican los "disclaimers" usuales. Si tenes comentarios, sugerencias, no dudes en enviarme un mensaje por `Slack`.
 
-# What's R and why use it?
-
-R is a free, open-source, and object-oriented language. Free and open-source means that anyone is free to use, redistribute and change the software in any way. Moreover, "R is  'GNU S', a freely available language and environment for statistical computing and graphics which provides a wide variety of statistical and graphical techniques." (<http://cran.r-project.org>)
+# ¿Qué es `R` y porqué usarlo?
 
 
-There are lots of software out there to do data analysis that are prettier and seem more accessible than R, so why should I invest in learning R? 
-
-- As I said, R is an investment, not a waste of time. There are three characteristics of R that make it worthwhile learning it. 
-- It is also free. Much fancier-looking software used today is quite expensive, but R is free and will always be free. 
-- R  is a language, which means is that you don't only get to use the functions that come in the software, but you can create your own (just to get an overview of the power of the R language, you can take a look at [Roger Koenker's Quantile Regression package](<http://cran.r-project.org/web/packages/quantreg/index.html>)). 
-- The last reason that I think R is worth your while, is that R is extremely well supported. If you have a question, you can just [google](<http://www.google.com>) it, post it to StackOverflow](<http://stackoverflow.com/>) or use [R-blogger](<http://www.r-bloggers.com/>)./ 
-
-If you are not convinced yet, just can type "why to use the R language" in [google](<http://www.google.com>), and I think the results will speak by themselves.
+`R` es un lenguaje gratuito, libre, de código abierto, y orientado a objetos. `R` no es un lenguaje de programación como `C` o `Java`. No fue creado para el desarrollo de software, sino que fue diseñado por estadísticos como un entorno interactivo para el análisis de datos. 
 
 
-# Downloading and Installing R 
+La interactividad es unas de sus características más importantes ya que nos permitirá explorar rápidamente los datos con los que estamos trabajando. Pero, además, dado que es un lenguaje de programación, al igual que otros lenguajes. uno puede guardar su trabajo en scripts que pueden ser ejecutables en cualquier momento
+ 
+Al ser libre y de código abierto implica que cualquiera es libre de usar, redistribuir, y cambiarlo de cualquier forma. Es decir, que podemos no sólo usar las funciones que vienen en el software, sino que también crear propias, o utilizar las que otros investigadores, desarrolladores, y miembros de la comunidad idearon y pusieron a disposición en [CRAN] (http://cran.r-project.org), [github]( https://github.com/), u otros lugares.
 
-You can obtain a free R copy on CRAN (Comprehensive R Archive Network) by clicking on <http://cran.r-project.org> and choosing your appropriate operating system. Check the following `.gif` on how to do it:
+Adicionalmente, `R`  esta extremadamente bien soportado, y la comunidad es genial. Si tiene una pregunta puede [googlearla](<http://www.google.com>), publicarla en [StackOverflow](<http://stackoverflow.com/>) o usar [R-bloggers ](<http://www.r-bloggers.com/>) . Es más, los usuarios habituales resaltan esto cuando se les pregunta como se puede ver en la gráfica de abajo.
 
+![](aux/Rbest.png)
+
+Si aún no está convencido, simplemente escriba "por qué usar `R`" en [google](<http://www.google.com>), y creo que los resultados hablarán por sí mismos. 
+
+Finalmente, y no menos importante, es gratuito y siempre lo será.
+
+
+
+
+
+
+
+# Descargar e Instalar `R``
+
+Podemos obtener una copia gratuita de `R` en [CRAN (Comprehensive R Archive Network)](<http://cran.r-project.org>) y eligiendo su sistema operativo. El siguiente  `.gif` ilustra como hacerlo a través de google:
 
 
 ![](aux/Download_R.gif)
 
+Una vez descargado, siga las instrucciones para instalarlo.
 
 
-## The R Interface and Rstudio
 
-After downloading R, you can work at least two ways: using the graphical interface or working in batch mode. Since this is just an introduction and you are reading it, you will likely use a graphical interface. After you have mastered the art of scripting in R, or if you are brave enough, you can try running your scripts in batch mode.
+# La Interface de `R` y `Rstudio`
 
-When using R interactively or with scripts, you can use a graphical user interface (GUI). Their standard R distribution comes with a friendly GUI. When you install R it will be installed and a direct access icon create on your desktop.
+Luego de descargar `R`, podemos trabajar al menos de dos formas: utilizando una interfaz gráfica o trabajando en `batch mode`. Pero dado que esto es una introducción dejaremos el `batch mode` para otro momento, y nos centraremos en las interfaces gráficas.  
 
-Another option, and the one I'll use in the course, is  [RStudio](https://www.rstudio.com/), which is also free and open-sourced. You can install it by going to their website and downloading and following their instructions:
+Al usar `R` de forma interactiva o con scripts, puede usar una interfaz gráfica de usuario (GUI). LA distribución de `R` estándar viene con una interfaz gráfica lista para ser utilizada. Luego de instalar `R`, notará que creo un  acceso directo en su escritorio. Haciendo doble click en este podra usar la GUI.
+
+Otra opción, y la que usaremos en el curso, es [RStudio](https://www.rstudio.com/), que también es gratuito y de código abierto. El siguiente  `.gif` ilustra como hacerlo a descargarlo con google:
 
 
 
 
 ![](aux/Download_Rstudio.gif)
 
-# First steps in R
+# Primeros pasos en `R`
 
-The next step is learning the language's syntax, which means learning its rules. After you open the `RGUI` or [RStudio](https://www.rstudio.com/), you are going to see the R console, which displays the results of your analysis, or any messages associated with the code that you entered in the command line (after the arrow ">").
+El siguiente paso es aprender la sintaxis de `R`, lo que significa aprender sus reglas. :uego de abrir el `RGUI` o [RStudio](https://www.rstudio.com/), verá la consola, que muestra los resultados de su análisis, o cualquier mensaje asociado con el código  ingresado en la línea de comando (después de la flecha `>`).
 
-For example, we can use R as a calculator. You can type arithmetical expressions at the prompt (`>`):
+Por ejemplo, podemos usar `R` como calculadora, por ejemplo pruebe:
+
+
 
 ```{r comment=NA}
     2 + 2
 ```   
 
-or
+o
 
 ```{r comment=NA}
     log(1)
 ```   
 
-The [1] indicates that it is the first result from the command and, in this case, the only one. You can also type something with multiple values, for example, a sequence of integers from 10 to 40:
- 
+El `[1]` indica que es el primer resultado del comando, y en este caso, el ùnico. Pero puede tambien ingresar algo son multiples valores, por ejemplo, una secuencia de enteros desde el 10 al 40:
+
  
 ```{r comment=NA}
     10:40
 ```   
 
-The first line starts with the first return value, labeled [1]; the second line begins with the 26th, which is labeled [26].
+La primer linea inicia con el primer valor retornado, designado con `[1]`, la segunda linea comienza con el 26vo, designado con `[26]`.
 
 
-To quit your session, just type:
+Para salir de su seción puede escribir simplemente o cerrar [RStudio](https://www.rstudio.com/):
 
 ```{r eval=FALSE}
     q()
 ```
 
 
-## Next Steps
+# Paquetes de `R`
 
-In the first class, I'll go more in-depth on working with R. If you have any questions or trouble installing it, feel free to send me a `Slack`
+Cuando instalamos `R` sus funciones básica si bien podersas solo reflejan una pequeña fracción de lo que es posible hacer en `R`. Es mas, nos referimos a estas funciones como `base R`. La funcionalidades adicionales vienen dadas por paquetes.
+
+Un paquete junta código, datos, documentación y pruebas, de forma tal que es fácil de compartir con otros. En `R`, uno puede compartir código a través de estos paquetes. 
+
+En octubre de 2021, hay más de 18,300 paquetes disponibles [CRAN](<http://cran.r-project.org>). Esta enorme variedad de paquetes es una de las razones por las que `R` tiene tanto éxito: lo más probable es que alguien ya haya resuelto un problema en el que estamos trabajando y por lo tanto podemos beneficiarnos de su trabajo descargando su paquete. Por ejemplo, yo he creado dos paquetes: [RATest](https://cran.r-project.org/web/packages/RATest/index.html) e [ioanalysis](https://cran.r-project.org/web/packages/ioanalysis/)
+
+En este curso utilizaremos varios paquetes, los principales serán [tidyverse](https://www.tidyverse.org/), [tidymodels](https://www.tidymodels.org/), y [caret](https://cran.r-project.org/web/packages/caret/index.html). Para instalar un paquete utilizamos la función `install.packages()`
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+En [RStudio](https://www.rstudio.com/), también puede hacerlo en la pestaña de `Tools`. 
+
+Una vez instalado hay que llamarlo o cargarlo con la función
+
+```{r eval=FALSE}
+library(tidyverse)
+```
+
+Una vez instalados no es necesario volverlos a instalar pero si cargarlos cuando vamos a utilizarlos. Recordemos, también que los paquetes estan instalados en `R` (el motor), y no en [RStudio](https://www.rstudio.com/) (la interface).
+
+Finalmente, podemos ver todos los paquetes que tenemos isntalados con la función:
+```{r eval=FALSE}
+installed.packages()
+```
+
+
+# Proximos pasos
+
+En la primer clase veremos con mas profundidad como trabajar en `R`. Si tiene preguntas o problemas instalando, no dude en enviarme un `Slack`.
 
 
