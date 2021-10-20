@@ -8,33 +8,110 @@
 library("here") #project location
 library("tidyverse") #data wrangling 
 
+# # -----------------------------------------------------------------------
+# Leer los datos
+#(Fuente: https://www.kaggle.com/austinreese/craigslist-carstrucks-data?select=vehicles.csv)
+# # -----------------------------------------------------------------------
+set.seed(1199)
+#dta_baseR<-read.csv(here("vehicles.csv"))
+# dta_tidyverse<-read_csv(here("vehicles.csv"))
+# dta_tidyverse2<-na.omit(dta_tidyverse)
+# dta_sample<-dta_tidyverse[1:100000,]
+#write_csv(dta_sample,here("sample_vehicles.csv"))
+dta_sample<-read_csv("sample_vehicles.csv") 
 
 
+# # -----------------------------------------------------------------------
+# Limpiar datos -----------------------------------------------------------
+# # -----------------------------------------------------------------------
 
-# Leer los datos (disponibles en https://www.kaggle.com/austinreese/craigslist-carstrucks-data?select=vehicles.csv)
-dta_baseR<-read.csv(here("vehicles.csv"))
-#dta_tidyverse<-read_csv(here("vehicles.csv"))
-#sample<-dta_tidyverse[1:100000,]
-#write_csv(sample,here("sample_vehicles.csv"))
-dta_sample<-read_csv("https://www.dropbox.com/s/1xr1qvjpehnukec/sample_vehicles.csv?dl=0") #cargar desde dropbox 
-
-
-
-# Que es "tidy" data?
+#Tidyverse vs BaseR
+## Estas dos lineas hacen lo mismo
+str(dta_sample)
+glimpse(dta_sample)
   
 
+#Filtrar
+dta_sample %>% 
+  filter(is.na(price))
 
-## Estas dos lineas hacen lo mismo
-sample %>% filter(manufacturer=="audi") %>% group_by(region) %>% summarise(odometer_mean = mean(odometer))
+
+# ordenar
+dta_sample %>% 
+  arrange(year)
+
+dta_sample %>% 
+  arrange(desc(year))
+
+#renombrar
+dta_sample %>%
+  rename(precio=price, modelo=model, condicion=condition) 
+
+dta_sample %>%
+  select(precio=price, modelo=model, condicion=condition) 
+
+
+
+#Fitrar y hacer resumer
+
+dta_sample %>% filter(manufacturer=="audi") %>% group_by(region) %>% summarise(odometer_mean = mean(odometer))
 summarise(group_by(filter(sample, manufacturer=="audi"), region), odometer_mean = mean(odometer))
 
-
-
-sample %>% 
+#Recordar: Usar espacio vertical no cuesta nada y ayuda a la legibilidad
+dta_sample %>% 
   filter(manufacturer=="audi") %>% 
   group_by(region) %>% 
   summarise(odometer_mean = mean(odometer))
 
+dta_sample %>% 
+  select(precio, year) %>%
+  mutate(
+    logprecio =log(precio), ## Separate with a comma
+    comment = paste0("El log precio es:", logprecio)
+  )
 
-#Recordar: Usar espacio vertical no cuesta nada y ayuda a la legibilidad
+
+
+# # -----------------------------------------------------------------------
+# Visualizar --------------------------------------------------------------
+# # -----------------------------------------------------------------------
+
+plot(year,price)
+plot(dta_sample$year,dta_sample$price)
+
+plot(dta_sample$year,log(dta_sample$price))
+
+mean_year<- dta_sample%>%
+  group_by(year) %>% 
+  summarise(price = mean(price,na.rm=TRUE),
+            obs=n())
+
+plot(mean_year$year,log(mean_year$price))
+
+ggplot(data=mean_year,aes(x=year,y=log(price))) +
+  geom_line() +
+  geom_smooth(method="lm")+
+  theme_bw()
+
+
+
+# # -----------------------------------------------------------------------
+# Regresion Lineal --------------------------------------------------------
+# # -----------------------------------------------------------------------
+
+reg1<-lm(price~odometer+factor(region),data=dta_sample)
+summary(reg1)
+
+reg2<-lm(price~odometer+factor(year)+factor(region),data=dta_sample)
+
+
+
+
+
+
+
+
+
+
+
 
