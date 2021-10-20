@@ -3,6 +3,12 @@
 *.lyx 
 Admin/*
 *.docx
+Tutorials/Classification/*
+Tutorials/Crossvalidation/*
+Tutorials/Lasso/*
+Tutorials/sample_vehicles.csv
+Tutorials/vehicles.csv
+Tutorials/vehicles.csv.zip
 
 ### macOS ###
 # General
