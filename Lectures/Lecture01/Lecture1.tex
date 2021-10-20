@@ -128,16 +128,53 @@
 
 
 \end{frame}
+%----------------------------------------------------------------------%
+\section{Aprendizaje de máquinas es todo sobre predicción}
+%----------------------------------------------------------------------%
+ \begin{frame}[noframenumbering]
+\tableofcontents[currentsubsection]
 
+\end{frame}
 %----------------------------------------------------------------------%
-\section{¿Qué es Aprendizaje de Máquinas?}
+\begin{frame}
+\frametitle{¿Qué es la máquina de aprender?}
+
+\begin{itemize}
+  \item El aprendizaje de máquinas es una rama de la informática y la estadística, encargada de desarrollar algoritmos para predecir los resultados $y$ a partir de las variables observables $X$.
+  \medskip
+  \item La parte de aprendizaje proviene del hecho de que no especificamos cómo exactamente la computadora debe predecir $y$ a partir de $X$.
+  \medskip
+   \item Esto queda como un problema empírico que la computadora puede "aprender".
+   \medskip
+  \item En general, esto significa que nos abstraemos del modelo subyacente, el enfoque es muy pragmático
+  
+  \bigskip
+  \bigskip
+
+  \pause
+  \begin{quote}
+  \centering
+  \bf ``Lo que sea que funciona, funciona...''
+  \end{quote}
+\end{itemize}
+\end{frame}
 %----------------------------------------------------------------------%
-\section{Motivación}
+\begin{frame}
+\frametitle{``Lo que sea que funciona, funciona...''}
+
+
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}  
+            \includegraphics[scale=0.45]{figures/machine_learning}
+\end{figure}
+\end{frame}
+%----------------------------------------------------------------------%
 \subsection{Ejemplos para Motivarnos}
-
+%----------------------------------------------------------------------%
 \begin{frame}
 \frametitle{Motivación}
-\framesubtitle{La primera victoria y derrota del Big Data}
+\framesubtitle{La primera victoria y derrota de ML}
 
 \begin{itemize}
   \item Contexto ?`similar? al de hoy: Epidemia de la gripe A en 2009
@@ -161,7 +198,7 @@
   \bigskip
   \item Punto de partida: 
   \begin{itemize}
-    \item Proporcion de visitas semanales por Gripe A en hospitales 
+    \item Proporción de visitas semanales por Gripe A en hospitales 
     \item 9 regiones $\times$ 5 años (2003-2007) = $2,340$ datos
     \item Estos son los datos que tomaban 10 dias en elaborarse (comparemos con la Colombia de 2009)
   \end{itemize}
@@ -180,7 +217,8 @@
 \framesubtitle{Google se ha unido a la conversación}
 
 \begin{itemize}
-  \item ¿Un solo modelo?
+  \item ¿Un sólo modelo?
+  \pause
   \bigskip
   \item Los investigadores de Google estimaron {\bf 450 millones} de modelos
   \bigskip
@@ -191,11 +229,7 @@
   \item A Google le toma 1 día lo que a la CDC 10!
 \end{itemize}  
 \end{frame}
-
-
-
 %----------------------------------------------------------------------%
-
 \begin{frame}
 \frametitle{Motivación}
 \framesubtitle{Google se ha unido a la conversación}
@@ -256,125 +290,202 @@
 
 \end{frame}
 
-%%----------------------------------------------------------------------%
 
-\subsection{¿Qué entendemos por Big Data y ML?}
+
+%----------------------------------------------------------------------%
+\section{Sobre el curso}
+%----------------------------------------------------------------------%
+ \begin{frame}[noframenumbering]
+\tableofcontents[currentsubsection]
+
+\end{frame}
+%----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{¿Qué entendemos por Big Data y ML?}
+\frametitle{Sobre el curso}
 
+
+\begin{itemize}
+
+  \item El aprendizaje automático en economía es muy nuevo y dinámico. 
+  \medskip
+  \item Estas 7 clases darán un {\it "snapshot"} de este campo en evolución.
+  \medskip
+  \item Estudiaremos ML a través de ejemplos, centrándonos en algunas aplicaciones y algoritmos de ML.
+  \medskip
+  \begin{itemize}
+  \item Primera parte de la clase será teórica
+  \medskip
+  \item Break
+  \medskip
+  \item Segunda parte trabajo en \texttt{R}
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+ %----------------------------------------------------------------------%
+\begin{frame}
+
+\frametitle{Sobre el curso}
+\begin{itemize}
+  \medskip
+  \item Un aspecto adicional de las clases es que intentaré resaltar cómo encaja el ML en (y dónde se diferencia de) los métodos cuantitativos existentes en la microeconomía aplicada.
+  \medskip
+  \item Lo que no haré es centrarme demasiado en los detalles de algoritmos y problemas computacionales.
+  \medskip
+
+\end{itemize}
+
+\begin{quote}
+The master-economist must possess a rare combination of gifts...He must be mathematician, historian, statesman, philosopher and \textcolor{andesred}{data scientist} – in some degree.
+\end{quote}
+\flushright{adaptado de {\it Keynes (1924), Economic Journal}}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Lecturas}
+
+
+\begin{enumerate}
+
+
+\item El libro de texto principal (nivel de maestría): James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning with Applications in R [ISLR] \href{https://www.statlearning.com/}{link}
+\medskip
+\item También es útil (nivel de primer año de doctorado): Hastie, Tibshirani, Friedman, Elementos de aprendizaje estadístico [ESL]. \href{https://web.stanford.edu/~hastie/ElemStatLearn/}{link} 
+\medskip
+\item Para los inquietos, estos artículos de introducción general en el Journal of Economic Perspectives estan muy interesantes:
+  \begin{itemize}
+    \item Varian (2014), “Big Data: New Tricks for Econometrics” \href{https://www.aeaweb.org/articles?id=10.1257/jep.28.2.3}{link}
+    \item Mullainathan y Spiess (2017), “Machine Learning: An Applied Econometric Approach” \href{https://www.aeaweb.org/articles?id=10.1257/jep.31.2.87}{link}
+  \end{itemize}
+\medskip
+\end{enumerate}
+
+
+$\dots$ y otros que voy a mencionar en clase y los compartiremos en Slack
+\end{frame}
+%----------------------------------------------------------------------%
+\section{Tipos de Aprendizaje}
+%----------------------------------------------------------------------%
+ \begin{frame}[noframenumbering]
+\tableofcontents[currentsubsection]
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}<1>[label=tipos_Aprendizaje]
+\frametitle{Tipos de Aprendizaje}
+\begin{itemize}
+
+
+\item ML se divide en dos (¿?) ramas principales:
+\medskip
+  \begin{enumerate}
+
+  \item Aprendizaje supervisado: Tenemos datos tanto sobre un resultado $y$ como sobre las variables explicativas $X$.
+    \begin{itemize}
+      \item Esto es lo más cercano al análisis de regresión que conocemos. De hecho, OLS es un  ejemplo de aprendizaje supervisado.
+      \item Si $y$ es discreto, también podemos ver esto como un problema de clasificación.
+      \item La mayoría de los ejemplos que veremos, y la mayor parte de nuestra discusión metodológica, caen en esta clase.
+    \end{itemize}
+
+
+  \pause
+  \item  Aprendizaje no supervisado: No tenemos datos sobre $y$, solo sobre $X$.
+
+  \begin{itemize}
+    \item Queremos agrupar estos datos (sin especificar qué agrupar).
+    \item Permite reducir la dimensionalidad y explorar datos
+    \item Algunos algoritmos destacados: PCA, y  K-medias
+  \end{itemize}
+
+  \end{enumerate}
+\end{itemize}
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Tipos de Aprendizaje}
+
+
+\begin{itemize}
+  \item Aprendizaje supervisado
+  \begin{itemize}
+    \item para cada predictor $x_i$ hay una 'respuesta' observada $y_i$.
+    \item lo que hacemos en econometría cae en esta rama
+  \end{itemize}
+\end{itemize}
+
+\bigskip
 \begin{figure}[H] \centering
-  \captionsetup{justification=centering}  
-    \includegraphics[scale=0.5]{figures/data_everywhere}
+  \captionsetup{justification=centering}
+
+    \centering
+    \includegraphics[scale=0.15]{figures/supevised}
+  \\
+  \tiny
+  Source: \url{shorturl.at/opqKT}
+  \end{figure}
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+\againframe<2>{tipos_Aprendizaje}
+%----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+
+\begin{frame}
+\frametitle{Tipos de Aprendizaje}
+
+\begin{itemize}
+  \item  Aprendizaje no supervisado
+  \begin{itemize}
+    \item Observamos $X$ pero no las respuetas
+    \item Ejemplo: agrupar datos
+  \end{itemize}
+  \end{itemize}
+
+\bigskip
+    \begin{figure}[H] \centering
+
+    \centering
+    \includegraphics[scale=0.2]{figures/unsupevised}
+  \\
+  \tiny
+  Source: \url{shorturl.at/opqKT}
 \end{figure}
 
 
+\end{frame}
+%----------------------------------------------------------------------%
+\section{A nadar}
+%----------------------------------------------------------------------%
+ \begin{frame}[noframenumbering]
+\tableofcontents[currentsubsection]
 
 \end{frame}
-
 %----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{¿Qué entendemos por Big Data y ML?}
+\frametitle{Un modelo estadístico general}
 
 \begin{itemize}
-      \item ¿Que es Big Data? 
-      \begin{itemize}
-      \item Big n, es solo parte de la historia
-      \item Big también es big k, muchos covariates, a veces $n<<k$
-      \item Vamos a entender Big también como datos que no surgen de fuentes tradicionales (cuentas nac., GEIH, etc)
-      \begin{itemize}
-        \item Datos de la Web
-        \item GPS
-        \item Texto
-        \item Imágenes
-      \end{itemize}
-      \end{itemize}
-      \medskip
-      \item Machine Learning
-        \begin{itemize}
-          \item Cambio de paradigma de estimación a predicción
-
-        \end{itemize} 
-      
+\item Asumamos que la relación entre la variable a predecir $y$ y los predictores $X$ esta dada por
+\medskip
+\begin{align}
+Y=f(X)+u
+\end{align}
+\medskip
+\item donde $f$ es una función fija pero desconocida de $X$, con $E(u)=0$ y $E(X'u)=0$
+\medskip
+\item $f$ no está restringida de ninguna manera; puede ser una función completamente arbitraria y compleja.
 \end{itemize}
-
-\end{frame}
-
-%----------------------------------------------------------------------%
-
-\section{Presentación: un poco sobre nosotros}
-\begin{frame}
-\frametitle{Presentación: Sobre mi}
-
-  \begin{itemize}
-      \item  Ignacio Sarmiento Barbieri
-      \medskip
-      \item \url{https://ignaciomsarmiento.github.io/}
-      \medskip
-      \item \href{mailto:i.sarmiento@uniandes.edu.co}{i.sarmiento@uniandes.edu.co}
-      \medskip
-      \item Intereses: Economia Pública y Urbana. Economia del Crime. Econometria Aplicada, Big Data y Machine Learning.
-      \medskip
-      \item Originario de Salta, Argentina
-  \end{itemize}
-
-\end{frame}
-\section{Presentación: un poco sobre nosotros}
-\begin{frame}
-\frametitle{Presentación: Sobre mi}
-
-{\bf Motivation}
-
-\bigskip
-
-\begin{itemize}
-      \item We discussed the examples of Google Flu and Facebook face detection
-      \medskip
-      \begin{itemize}
-        \item Take away, the success was driven by an empiric approach
-        \item Given data  estimate a function $f(x)$ that predicts $y$ from $x$
-      \end{itemize}
-      \medskip
-
-      \item  This is basically what we do as economists everyday so:
-      \begin{itemize}
-        \item  Are these algorithms merely applying standard techniques to novel and large datasets?
-        \item  If there are fundamentally new empirical tools, how do they fit with what we know?
-        \item  As empirical economists, how can we use them?
-       \end{itemize}
-\end{itemize}
-
-\end{frame}
-%----------------------------------------------------------------------%
-\section{Shifting Paradigms}
-\begin{frame}
-\frametitle{Big vs Small, Classic vs Predictive}
-
-\begin{itemize}
-  \item Classical Stats (small data?)
-    \begin{itemize}
-      \item Get the most of few data (Gosset)
-      \item Lots of structure, e.g. $X_1,X_2,...,X_n\sim t_v$
-      \item Carefully curated $\rightarrow$ approximates random sampling (expensive, slow) but very good and reliable
-    \end{itemize}
-\bigskip
-    \item Big Data (the 4 V's) 
-    \begin{itemize}
-      \item Data {\bf V}olume
-      \item Data {\bf V}ariety
-      \item Data {\bf V}elocity
-      \item Data {\bf V}alue
-      
-    \end{itemize}
-
-\end{itemize}
-\bigskip
-
 
 
 \end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{The Classic Paradigm}
+\frametitle{El paradigma clásico}
 
 
 \begin{align}
@@ -382,13 +493,14 @@ Y=f(X)+u
 \end{align}
 \medskip
 \begin{itemize}
-  \item Interest lies on inference
+  \item El interés esta en la inferencia
   \medskip
-  \item "Correct" $f()$ to understand how Y is affected by X
+  \item Tests de hipótesis (std. err., tests)
   \medskip
-  \item Model: Theory, experiment
+  \item La $f(.)$ "correcta" nos ayuda a entender como $y$ es afectado por $X$
   \medskip
-  \item Hypothesis testing (std. err., tests)
+  \item Modelo: surge de la teoría
+  
 \end{itemize}
 
 \end{frame}
@@ -396,7 +508,8 @@ Y=f(X)+u
 %----------------------------------------------------------------------%
 
 \begin{frame}
-\frametitle{The Predictive Paradigm}
+\frametitle{El paradigma predictivo}
+
 
 
 \begin{align}
@@ -404,11 +517,45 @@ Y=f(X)+u
 \end{align}
 
 \begin{itemize}
-  \item Interest on predicting $Y$
+  \item El objetivo del aprendizaje supervisado es predecir $y$ basada en las características $X$.
   \medskip
-  \item "Correct" $f()$ to be able to predict (no inference!)
+  
+  
+  \item Debido a que nos ayuda a hacer una predicción, es útil estimar $f(.)$
   \medskip
-  \item Model?
+  \item Entonces la  $f(.)$ ``correcta'' es la que es capaz de predecir (no hacer inferencia!)
+  \medskip
+  \item Modelo?
+  \pause
+  \item Como en predicción {\bf no} nos interesa $f(.)$ en si misma, podemos tratarla como una {\it black box}, cualquier aproximación que nos da una buena predicción funciona. Recordemos:
+
+\pause
+  \begin{quote}
+  \centering
+  \bf ``Lo que sea que funciona, funciona...''
+  \end{quote}
+\end{itemize}
+
+
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+
+\begin{frame}
+\frametitle{El paradigma predictivo}
+
+\begin{itemize}
+
+  \item A lo largo del curso vamos a explorar varios algoritmos lineales y no lineales que nos permitan estimar $f(.)$
+  \medskip
+  \item Estos métodos podemos resumirlos  en dos grandes ramas
+  \medskip
+  \begin{enumerate}
+    \item Modelos paramétricos
+    \medskip
+    \item Modelos no paramétricos
+  \end{enumerate}
 
 \end{itemize}
 
@@ -419,449 +566,265 @@ Y=f(X)+u
 %----------------------------------------------------------------------%
 
 \begin{frame}
-\frametitle{How to choose $f(.)$}
+\frametitle{Como estimamos $f(.)$?}
+\framesubtitle{Métodos paramétricos}
 
 
-
+\begin{itemize}
+ \item Supongamos que tenemos los siguientes datos 
+\end{itemize}
 
 \begin{figure}[H] \centering
   \centering
   \includegraphics[scale=0.25]{figures/fig_1.pdf}
   \\
   \tiny
-  Source: simulated data, see \texttt{figures} folder for scripts
+  Fuente: datos simulados
 \end{figure}
 
+\end{frame}
+
+%----------------------------------------------------------------------%
+
+\begin{frame}
+\frametitle{Como estimamos $f(.)$?}
+\framesubtitle{Métodos paramétricos}
+
+\begin{itemize}
+  \item Los modelos paramétricos generalmente envuelven un enfoque de 2 pasos:
+  \medskip
+
+  \begin{enumerate}
+    \item Primero hacemos un supuesto sobre la forma funcional de $f(.)$. La mas común es que es lineal en $X$
+    \begin{align}
+    f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p 
+    \end{align}
+
+    \item Luego de seleccionar el modelo, necesitamos un procedimiento que nos ayude a "ajustar" o "entrenar" el modelo
+  \end{enumerate}
+  \medskip
+
+  \item Este enfoque se conoce como paramétrico porque reduce el problema de estimar $f(.)$ a estimar un conjunto de parámetros
+\end{itemize}
 
 \end{frame}
 
 %----------------------------------------------------------------------%
 
 \begin{frame}
-\frametitle{How to choose $f(.)$}
-
-
-\begin{itemize}
-  \item Linear $f(X)=X\beta$
-\end{itemize}
-
-\begin{figure}[H] \centering
-  \centering
-  \includegraphics[scale=0.25]{figures/fig_1b.pdf}
-  \\
-  \tiny
-  Source: simulated data, see \texttt{figures} folder for scripts
-\end{figure}
-
-
-\end{frame}
-%----------------------------------------------------------------------%
-
-\begin{frame}
-\frametitle{How to choose $f(.)$}
-
-
-\begin{itemize}
-  \item Spline $f(X)=g(X)$, where g is a spline
-\end{itemize}
-
-\begin{figure}[H] \centering
-  \centering
-  \includegraphics[scale=0.25]{figures/fig_1c.pdf}
-  \\
-  \tiny
-  Source: simulated data, see \texttt{figures} folder for scripts
-\end{figure}
-\end{frame}
-
-
-
-
-
-
-
-%----------------------------------------------------------------------%
-\section{How to Evaluate Estimators?}
-%----------------------------------------------------------------------%
-\section{Statistical Decision Theory}
-\begin{frame}
-\frametitle{Statistical Decision Theory: A bit of theory}
-
-\begin{itemize}
-  \item We need a bit of theory to give us a framework for choosing $f$
-  \item A decision theory approach involves an {\bf action space} $\mathcal{A}$
-  \item The {\bf action space} $\mathcal{A}$ specify the possible "actions we might take"
-  \item Some examples
-\end{itemize}
-
-\footnotesize
-
-\begin{table}[H]
-\caption{Action Spaces}
-
-\begin{centering}
-\begin{tabular}{cc}
-\hline
-Inference & Action Space\\
-\hline
-\hline
-Estimation $\theta$, $g\left(\theta\right)$  & $\mathcal{A}=\Theta$\\
-Prediction & $\mathcal{A}=space\,of\,X_{n+1}$\\
-Model Selection & $\mathcal{A}=\left\{ Model\,I,Model\,II,...\right\} $\\
-Hyp. Testing & $\mathcal{A}=\left\{ Reject|Accept\,H_{0}\right\} $\\
-
-\hline
-\end{tabular}
-\par\end{centering}
-\end{table}
-
-
-\end{frame}
-
-%----------------------------------------------------------------------%
-
-\begin{frame}
-\frametitle{Statistical Decision Theory: A bit of theory}
-
-
-\begin{itemize}
-  \item After the data $X=x$ is observed, where $X\sim f(X|\theta)$, $\theta \in \Theta$
-  \item A decision is made
-  \item The set of allowable decisions is the action space ($\mathcal{A}$)
-  \item The loss function in an estimation problem reflects the fact that if an action $a$ is close to $\theta$,
-  \begin{itemize}
-   \item then the decision $a$ is reasonable and little loss is incurred.
-   \item if it is far then a large loss is incurred
-  \end{itemize}
-\end{itemize}
+\frametitle{Como estimamos $f(.)$?}
+\framesubtitle{Métodos paramétricos}
 
 \begin{align}
-    L:\mathcal{A}\rightarrow\left[0,\infty\right]
+   f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p 
 \end{align}
 
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.2]{figures/fig_1b.pdf}
+  \\
+  \tiny
+  Fuente: datos simulados
+\end{figure}
 
 \end{frame}
 %----------------------------------------------------------------------%
 
 \begin{frame}
-\frametitle{Statistical Decision Theory: A bit of theory}
-\framesubtitle{Loss Function}
-
+\frametitle{Como estimamos $f(.)$?}
+\framesubtitle{Métodos no paramétricos}
 \begin{itemize}
-\item If $\theta$ is real valued, two of the most common loss functions are
-
-\begin{itemize}
-  \item Squared Error Loss:
-
-  \begin{align}
-      L(a,\theta)=(a-\theta)^{2}
-  \end{align}
-
-    \item Absolute Error Loss:
-
-    \begin{align}
-      L(a,\theta)=|a-\theta|
-    \end{align}
+\item No hacen supuestos explícitos sobre la forma funcional de $f(.)$
+\medskip
+\item Buscan estimar $f(.)$ que se acerque lo mas posible a los puntos sin ser lo demasiada rígida u ondulada
+\medskip
+\item Tienen la ventaja que se pueden adaptar a mas formas posibles de $f(.)$
+\medskip
+PEro suelen necesitar un número mas alto de observaciones y en algunos casos ser poco robustos.
 \end{itemize}
 
-
-\item These two are symmetric functions. However, there's no restriction. For example in hypothesis testing a "0-1" Loss is common.
-\item Loss is minimum if the action is correct
-\end{itemize}
-%how $L$ looks as longs as it maps into $\left[0,\infty\right]$.
 \end{frame}
 %----------------------------------------------------------------------%
 
 \begin{frame}
-\frametitle{Statistical Decision Theory: A bit of theory}
-\framesubtitle{Risk Function}
-In a decision theoretic analysis, the quality of an estimator is quantified by its risk function, that is, for an estimator $\delta(x)$ of $\theta$, the risk function is
+\frametitle{Como estimamos $f(.)$?}
+\framesubtitle{Métodos no paramétricos}
 
 \begin{align}
-      R(\theta,\delta)=E_\theta (L(\theta,\delta(X))
-    \end{align}
+  f(X)=g(X) \text{donde g es un spline}
+\end{align}
 
-    at a given $\theta$, the risk function is the average loss that will be incurred if the estimator $\delta(X)$ is used
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.2]{figures/fig_1c.pdf}
+  \\
+  \tiny
+ Fuente: datos simulados
+\end{figure}
 
-
-\begin{itemize}
-\item Since $\theta$ is unknown we would like to use an estimator that has a small value of $R(\theta,\delta)$ for all values $\theta$
-\item Loss is minimum if the action is correct
-\item If we need to compare two estimators ($\delta_1$ and $\delta_2$) then we will compare their risk functions
-\item If $R(\delta_1,\theta)<R(\delta_2,\theta)$ for all $\theta \in \Theta$, then $\delta_1$ is preferred because it performs better for all $\theta$
-
-\end{itemize}
 \end{frame}
 %----------------------------------------------------------------------%
+\subsection{Regresión Lineal}
+%----------------------------------------------------------------------%
+ \begin{frame}[noframenumbering]
+\tableofcontents[currentsubsection]
 
+\end{frame}
+%----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{Statistical Decision Theory: A bit of theory}
-\framesubtitle{Example: Binomial Risk Function}
+\frametitle{Regresión Lineal}
+
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.25]{figures/ten_years.png}
+  \\
+  \tiny
+  Fuente: \url{https://www.reddit.com/r/datascience/comments/ah0q69/_/}
+\end{figure}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Regresión Lineal}
+
+\begin{itemize}
+
+
+\item El problema es:
+\begin{align}
+y=f(X)+u
+\end{align}
+
+\item proponemos que:
+\begin{align}
+  f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p 
+\end{align}
+
+\item El problema se reduce a encontrar los $\beta$s
 
 \begin{itemize}
   \footnotesize
-  \item Let $X_1,X_2,...X_n \sim_{iid} Bernoulli(p)$
-  \item Consider 2 estimators for $p$:  $\hat{p}^1=\frac{1}{n}\sum X_i$ and $\hat{p}^2=\frac{\sum X_i + \sqrt{n/4}}{n+\sqrt{n}}$
-  \item Their risks are: $R(\hat{p}^1,p)=\frac{p(1-p)}{n}$ and $R(\hat{p}^2,p)=\frac{n}{4(n+\sqrt{n})^2}$
-\end{itemize}
-
-
-\begin{figure}
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[scale=0.23]{figures/fig_2a.pdf}
-  \caption{n=4}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[scale=0.23]{figures/fig_2b.pdf}
-  \caption{n=400}
-\end{subfigure}
-\end{figure}
-
-
-
-\end{frame}
-%----------------------------------------------------------------------%
-
-\begin{comment}
-\begin{frame}
-\frametitle{Statistical Decision Theory: A bit of theory}
-\framesubtitle{Risk Function}
-
-\textbf{Frequentist Approach}
-
-\[
-E_{\theta}L\left(\delta\left(\underline{X}\right),\theta\right)=R\left(\delta,\theta\right)
-\]
-
-note that $\underline{X}$ are generated from a model with parameter
-$\theta$.
-
-\textbf{Bayesian Approach}
-
-\[
-E_{\theta}\left[L\left(\delta\left(\underline{X}\right),\theta\right)|\theta=\theta_{0}\right]=R\left(\delta,\theta_{0}\right)
-\]
-
-In the bayesian approach the data is generated from $\underline{X}|\theta=\theta_{0}$,
-the parameter is not fixed, comes from a distribution.
-
-\end{frame}
-\end{comment}
-%----------------------------------------------------------------------%
-\begin{frame}
-
-\frametitle{ Decision Theory for prediction}
-\framesubtitle{How to choose f?}
-\begin{itemize}
-  \item In a prediction problem we want to predict $Y$ from $f(X)$ in such a way that the loss is minimum
-  \item Assume also that $X \in \mathbb{R}^p$ and $Y \in \mathbb{R}$ with joint distribution $Pr(X,Y)$
-\end{itemize}
-
-\begin{align}
-  R(Y,f(X)) &=E[(Y-f(X))^2] \\
-            &=\int (y-f(x))^2 Pr(dx,dy)
-\end{align}
-
-conditioning on X we have that
-\begin{align}
- R(Y,f(X)|X) &= E_X E_{Y|X} [(Y-f(X))^2|X]
-\end{align}
-
-this risk is also known as the {\bf mean squared (prediction) error} $MSE(f)$ 
-\end{frame}
-%----------------------------------------------------------------------%
-
-\begin{frame}
-\frametitle{ Decision Theory for prediction}
-
-
-It suffices to minimize  the $MSE(f)$ point wise so
-
-\begin{align}
-f(x)= argmin_m E_{Y|X} [(Y-m)^2|X=x)
-\end{align}
-
-Y a random variable and m a constant (predictor)
-
-\begin{align}
-min_m E(Y-m)^2= \int (y-m)^2  f(y)dy
-\end{align}
-\medskip
-{\bf Result}: The best prediction of $Y$ at any point $X = x$ is the conditional mean, when best is measured using a square error loss
-
-\end{frame}
-%----------------------------------------------------------------------%
-
-\begin{frame}[t]
-\frametitle{ Decision Theory for prediction}
-
-{\bf Proof} \\
-\medskip
-FOC
-\medskip
-\begin{align}
-\int -2 (y-m)  f(y)  dy =0
-\end{align}
-\medskip
-Dividing by -2 and reorganizing
-\medskip
-\begin{align}
- m \int f(y) dy = \int y f(y)  dy
-\end{align}
-
-
-\end{frame}
-%----------------------------------------------------------------------%
-
-\begin{frame}
-\frametitle{ Decision Theory for prediction}
-
-
-\begin{align}
- m \int (y) dy = \int y f(y)  dy
-\end{align}
-\begin{align}
-m=E(Y|X=x)
-\end{align}
-
-
-The best prediction of $Y$ at any point $X = x$ is the conditional expectation function (CEF), when best is measured using a square error loss
-\begin{itemize}
-\item What shape does the CEF take?
-\item Linear 
-\begin{itemize}
-\item $(y,X)$ are jointly normal
-\item When models are saturated.
-\end{itemize}
-\end{itemize}
-
-
-\end{frame}
-%----------------------------------------------------------------------%
-
-\begin{frame}
-\frametitle{Linear Regression}
-
-\begin{itemize}
-\item Note the following from the {\it Regression-CEF Theorem}
-
-The function $X'\beta$ provides the minimum risk  linear approximation to $E(Y|X)$, that is
-
-\begin{align}
-\beta = \underset{b}{argmin}\,E\left\{ (E(Y|X) - X'b)^2 \right\}
-\end{align}
-
-\item Proof 
-\begin{align}
-(Y - X'b)^2 &= {((Y- E(Y|X))+ (E(Y|X) - X'b))}^2 \\
-            &= (Y- E(Y|X))^2+ (E(Y|X) - X'b)^2 + 2 (Y- E(Y|X))(E(Y|X) - X'b)
-\end{align}
-
-\item The CEF approximation problem then has the same solution as the population least square problems
-
-%\item this is why it is so important for us
-
-\end{itemize}
-\end{frame}
-
-%----------------------------------------------------------------------%
-\section{Linear Regression}
-%----------------------------------------------------------------------%
-\begin{frame}
-\frametitle{Linear Regression}
-
-\begin{itemize}
-
-
-  \item Regression provides the best linear predictor for the dependent variable in the same way that the CEF is the best unrestricted predictor of the dependent variable. 
-  \medskip
-  
-
-  \item The fact that Regression approximates the CEF is useful because it helps describe the essential features of statistical relationships, without necessarily trying to pin them down exactly. 
-  \medskip
-
-  \item Linear regression is the “work horse” of econometrics and (supervised) machine learning. 
-  \medskip
-  \item Very powerful in many contexts.
-  \medskip
-  \item Big `payday' to study this model in detail.
-\end{itemize}
-\end{frame}
-
-
-%----------------------------------------------------------------------%
-\begin{frame}
-\frametitle{Linear Regression Model}
-\bigskip
-$f(X)=X\beta$, estimating $f(.)$ boils down to estimating $\beta$
-\begin{align}
-y = X \beta +u
-\end{align}
-
-where 
-\begin{itemize}
-  \item y is a vector $n \times 1$ with typical element $y_i$
-  \item X is a matrix $n \times k$ 
+  \item Method de Momentos 
+  \item MLE 
+  \item OLS: minimiza SSR ($e'e$) 
   \begin{itemize}
     \tiny
-      \item Note that we can represent it as a column vector $\underset{n\times k}{X}=[\underset{n\times 1}{X_1}\,\,\underset{n\times 1}{X_2}\dots \underset{n\times 1}{X_k}] $
-  \end{itemize}
-  \item $\beta$ is a vector $k \times 1$ with typical element $\beta_j$
+  \item donde $e=y-\hat y=y-X\hat\beta$
+  \end{itemize}  
 \end{itemize}
 
-\bigskip
-Thus 
 
-\begin{align}
-y_i &= X_i' \beta +u_i  \\ \nonumber
-    &= \sum_{j=1}^k \beta_j X_{ji} +u_i
-\end{align}
 
+\end{itemize}
 \end{frame}
 
 
+%----------------------------------------------------------------------%
+\subsection{Precisión del modelo}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Como medimos: ``Lo que sea que funciona, funciona...''}
+
+\begin{itemize}
+  \item Con los parámetros podemos entonces recobrar la predicción
+    \begin{align}
+      \hat{y} &= \hat{f}(X) \\
+              &= \hat{\beta}_0 + \hat{\beta}_1 X_1 + \dots + \hat{\beta}_p X_p  
+    \end{align}
+\item Como sabemos que funcionó bien?
+\pause
+\item En estos problemas la medida más utilizada  es el {\it error cuadrático medio (MSE)} 
+\begin{align}
+MSE &= \frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}(X) )^2
+\end{align}
+\end{itemize}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Como medimos: ``Lo que sea que funciona, funciona...''}
+\begin{itemize}
+  \item Notemos que esto no es otra cosa que la suma de los residuales al cuadrado
+  \begin{align}
+  MSE &= \frac{1}{n} \sum_{i=1}^n (y_i - \hat{f}(X) )^2 \\ 
+      &= \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y} )^2 \\ 
+      &= \frac{1}{n} \sum_{i=1}^n (e)^2 \\ 
+      &= RSS
+  \end{align}
+  \item Esta medida nos da una idea de {\it lack of fit} que tan mal ajusta el modelo a los datos
+\end{itemize}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Como medimos: ``Lo que sea que funciona, funciona...''}
+
+\begin{itemize}
+\item Un problema del RSS es que nos da una medida absoluta de ajuste de los datos, y por lo tanto no esta claro que constituye un buen RSS.
+\medskip
+\item Una alternativa muy usada en economía es el $R^2$
+\medskip
+\item Este es una proporción (la proporción de varianza explicada), 
+\begin{itemize}
+  \item toma valores entre 0 y 1,
+  \item   es independiente de la escala (o unidades) de $y$
+ \end{itemize} 
+\medskip
+\begin{align}
+R^2 &= 1 - \frac{\sum_{i=1}^n (y_i - \hat{y} )^2 }{\sum_{i=1}^n (y_i - \bar{y} )^2 }  \\
+    &= 1 - \frac{RSS}{TSS} 
+\end{align}
+\end{itemize}
+
+\end{frame}
 %----------------------------------------------------------------------%
 \section{Recap}
-\begin{frame}
-\frametitle{Recap}
-
-\begin{itemize}
-    \item We start shifting paradigms
-    \medskip
-    \item Tools are not that different (so far)
-    \medskip
-    \item Decision Theory: Risk with square error loss $\rightarrow$ MSE
-    \medskip
-    \item OLS is a "work horse" approximates the $E[Y|X]$ quite well 
-    \medskip
-    \item Next Class:
-    \medskip
-    \begin{itemize}
-    \item  Next Class: OLS, Geometry, Properties
-    \end{itemize}
-     
-\end{itemize}
-\end{frame}
-
 %----------------------------------------------------------------------%
+\begin{frame}[noframenumbering]
+\tableofcontents[currentsubsection]
 
+\end{frame}
+%----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{Further Readings}
+\frametitle{Quick Recap antes de ir a \texttt{R}}
 
 \begin{itemize}
-  \item Angrist, J. D., \& Pischke, J. S. (2008). Mostly harmless econometrics. Princeton university press.
-  \bigskip
-  \item Casella, G., \& Berger, R. L. (2002). Statistical inference (Vol. 2, pp. 337-472). Pacific Grove, CA: Duxbury.
-  \bigskip 
-  \item Tom Shaffer The 42 V’s of Big Data and Data Science. \url{https://www.kdnuggets.com/2017/04/42-vs-big-data-data-science.html}
+  \item Vamos a ver distintos algoritmos donde el objetivo es predecir bien
+  \medskip
+  \item {\it ``Lo que sea que funciona, funciona...''}
+  \medskip
+  \item La medida más utilizada en problemas de regresión es el MSE
+
 \end{itemize}
 
 \end{frame}
-
 %----------------------------------------------------------------------%
-\section{R para ML}
+\section{Break}
+\begin{frame}
+\frametitle{}
+
+\begin{centering}
+\huge
+\textcolor{andesred}{Volvemos en 15 mins con \texttt{R} }
+
+\end{centering}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\section{\texttt{R para ML}}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{R para ML}
+
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.35]{figures/baticomputer_meme.jpg}
+  \\
+  \tiny photo from \url{https://www.dailydot.com/parsec/batman-1966-labels-tumblr-twitter-vine/}
+\end{figure}
+
+\end{frame}
+%----------------------------------------------------------------------%
 %----------------------------------------------------------------------%
 \end{document}
