@@ -173,25 +173,51 @@
 
 \end{frame}
 %----------------------------------------------------------------------%
-\section{Recap}
+\section{Recap} 
 %----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+\subsection{La máquina de aprender y Modelos Lineales} 
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{¿Qué es la máquina de aprender?}
+
+\begin{itemize}
+  \item El aprendizaje de máquinas es una rama de la informática y la estadística, encargada de desarrollar algoritmos para predecir los resultados $y$ a partir de las variables observables $X$.
+  \medskip
+  \item La parte de aprendizaje proviene del hecho de que no especificamos cómo exactamente la computadora debe predecir $y$ a partir de $X$.
+  \medskip
+   \item Esto queda como un problema empírico que la computadora puede "aprender".
+   \medskip
+  \item En general, esto significa que nos abstraemos del modelo subyacente, el enfoque es muy pragmático
+  
+  \bigskip
+  \bigskip
+
+  \pause
+  \begin{quote}
+  \centering
+  \bf ``Lo que sea que funciona, funciona...''
+  \end{quote}
+\end{itemize}
+
+\end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}
 \frametitle{Predicción y Error Predictivo}
 
 
 \begin{itemize}
-  \item El objetivo es predecir $Y$ dadas otras variables $X$. Ej: precio vivienda dadas las caracteristicas
+  \item El objetivo es predecir $y$ dadas otras variables $X$. Ej: precio vivienda dadas las características
   \bigskip
-  \item Asumimos que el link entre $Y$ and $X$ esta dado por el modelo:
+  \item Asumimos que el link entre $y$ and $X$ esta dado por el modelo:
 \end{itemize}
 \bigskip
 \begin{align}
-  Y = f(X) + u
+  y = f(X) + u
 \end{align}
 \bigskip
 \begin{itemize}
-  \item donde $f(X)$ es cualquier funcion, 
+  \item donde $f(X)$ es cualquier función, 
   \bigskip
   \item  $u$ una variable aleatoria no observable $E(u)=0$ and $V(u) = \sigma^2$
 \end{itemize}
@@ -205,18 +231,18 @@
 
 \begin{itemize}
   \item En la práctica no conocemos $f(X)$
-  \item Es necesario estimarla $\hat Y = \hat f(X)$ 
-
+  \medskip
+  \item Es necesario estimarla $\hat y = \hat f(X)$ 
+  \medskip
+  \item La medida de cuan bien funciona nuestro modelo es $MSE(y)= \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y} )^2$
+  \medskip
+  \item Notemos que podemos descomponer el $MSE$ en dos partes
 \end{itemize}
 
-\medskip
-Entonces
 \begin{align}
-  Err (  Y )  &= MSE(\hat f) + \sigma^2  \\
-                 &= Bias^2(\hat f) + V(\hat f) +  Irreducible\,Error
+  MSE (  y )  &= MSE(\hat f) + \sigma^2  
 \end{align}
 \medskip
-Dos partes 
 \begin{itemize}
   \item  el error de estimar $f$ con $\hat f$. (\emph{reducible})
   \item  el error de no observar $u$. (\emph{irreducible})
@@ -224,13 +250,214 @@ Dos partes
 
 \medskip
 
-Este resultado es muy importante,  
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Predicción y Error Predictivo}
+
 \begin{itemize}
-\item predecir $Y$ implica predecir bien $f$.
-\item existe un dilema entre sesgo y varianza
+  \item Descomponiendo un poco más:
+  
+
+
+\medskip
+
+\begin{align}
+  Err (  Y )  &= MSE(\hat f) + \sigma^2  \\
+                 &= Bias^2(\hat f) + V(\hat f) +  Irreducible\,Error
+\end{align}
+\medskip
+
+\item Este resultado es muy importante,  
+\begin{itemize}
+\item Aparece el  dilema entre sesgo y varianza
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Prediction Error}
+
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.15]{figures/medium_bias_variance}
+  \\
+  \tiny
+  Source: https://tinyurl.com/y4lvjxpc
+\end{figure}
+
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Dilema sesgo/varianza}
+
+\begin{itemize}
+  \item El secreto de ML: admitiendo un poco de sesgo podemos tener ganancias importantes en varianza
+
+\end{itemize}
+
+\pause
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.50]{figures/medium_bias_variance_trade_off.png}
+  \\
+  \tiny
+  Source: https://tinyurl.com/y4lvjxpc
+\end{figure}
+
+
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Predicción y regresión lineal}
+
+\begin{itemize}
+
+
+\item El problema es:
+\medskip
+\begin{align}
+y=f(X)+u
+\end{align}
+
+\item proponemos que:
+\begin{align}
+  f(X) = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p 
+\end{align}
+
+\item El problema se reduce a encontrar los $\beta$s
+  \begin{itemize}
+    \footnotesize
+    \item Un camino es OLS
+  \end{itemize}  
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Predicción y regresión lineal}
+
+\begin{itemize}
+  \item Y el dilema sesgo varianza?
+  \pause
+  \item Bajo los supuestos clásicos (Gauss-Markov) el estimador de OLS es insesgado:
+
+\medskip
+\begin{align}
+  E( X \hat \beta)&= E(\hat{\beta}_1 + \hat{\beta}_2 X_2 + \dots + \hat{\beta}_p X_p) \\ 
+  &= E(\hat{\beta}_1) + E(\hat{\beta}_2) X_2 + \dots + E(\hat{\beta}_p) X_p  \\ 
+  &= X \beta
+\end{align}
+\medskip
+
+\item  $MSE(\hat y)$ se reduce a  $V(\hat \beta)$
+
 \end{itemize}
 
 \end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Complejidad y compensación de varianza/sesgo}
+
+\begin{itemize}
+\item En la econometría clásica, la elección de modelos se resume a elegir entre modelos más pequeños y más grandes.
+\item Considere los siguientes modelos para estimar  $y$:
+
+\end{itemize}
+
+
+
+\begin{minipage}[t]{0.48\linewidth}
+
+          \begin{equation} 
+          y=\beta_1 X_1 + u_1 \nonumber
+          \end{equation}
+        \begin{itemize}
+          \item $\hat \beta^{(1)}_1$ el estimador de OLS $y$ on $X_1$
+          \medskip
+          \item La predicción es:
+        \end{itemize}
+        \bigskip
+          \begin{equation}\label{eq:3_2_3}
+          \hat{y}^{(1)}=\hat{\beta}^{(1)}_1 X_1 \nonumber
+          \end{equation}
+    
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}%
+        
+
+        \begin{equation}
+          y=\beta_1 X_1 + \beta_2 X_2 + u_2 \nonumber
+        \end{equation}
+      \begin{itemize}
+          \item  $\hat \beta^{(2)}_1$ y $\hat \beta^{(2)}_2$ con $\beta_1$ y $\beta_2$ los el estimador de OLS de $y$ en $X_1$ y $X_2$. 
+          \item La predicción es:
+      \end{itemize}
+
+      \begin{equation}\label{eq:3_2_4}
+      \hat{y}^{(2)}=\hat{\beta}^{(2)}_1 X_1 + \hat{\beta}^{(2)}_2 X_2  \nonumber
+      \end{equation}
+
+    \end{minipage}
+ 
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Complejidad y compensación de varianza/sesgo}
+
+\begin{itemize}
+  \item Una discusión importante en la econometría clásica es la de la omisión de variables relevantes frente a la inclusión de variables irrelevantes. 
+  \medskip
+  \begin{itemize}
+    \item Si el modelo (1) es verdadero entonces estimar el modelo más grande (2) conduce a estimadores ineficientes aunque no sesgados debido a que incluyen innecesariamente $X_2$. 
+    \medskip
+    \item Si el modelo (2) se verdadero, estimar el modelo más pequeño (1) conduce a una estimación de menor varianza pero sesgada si $ X_1 $ también se correlaciona con el regresor omitido $X_2$. 
+  \end{itemize}
+  \medskip
+  \item Esta discusión de pequeño vs grande siempre es con respecto a un modelo que se supone es verdadero.
+  \medskip
+\item  Pero en la práctica el modelo verdadero es desconocido!!!
+
+\end{itemize}
+
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Complejidad y compensación de varianza/sesgo}
+
+
+\begin{itemize}
+  \item Elegir entre modelos implica un dilema {\it sesgo/varianza}
+  \medskip
+\item La econometría clásica tiende a resolver este dilema abruptamente, 
+  \begin{itemize}
+    \item  requiriendo una estimación no sesgada y, por lo tanto, favoreciendo modelos más grandes para evitar sesgos
+  \end{itemize}
+\medskip
+\item En esta configuración simple, los modelos más grandes son "más complejos", por lo que los modelos más complejos están menos sesgados pero son más ineficientes. 
+\medskip
+\item Por lo tanto, en este marco muy simple, la complejidad se mide por el número de variables explicativas.
+\medskip
+\item Una idea central en el aprendizaje automático es generalizar la idea de complejidad, 
+  \begin{itemize}
+    \item Nivel óptimo de complejidad, es decir, modelos cuyo sesgo y varianza conducen al menor MSE.
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
 %----------------------------------------------------------------------%
 \section{Overfit}
 %----------------------------------------------------------------------%
@@ -301,28 +528,7 @@ Este resultado es muy importante,
  \end{figure}
 
 \end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile, noframenumbering]
-\frametitle{Overfit}
 
-
-        \begin{figure}[H] \centering
-            \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/fig_1g.pdf}
- \end{figure}
-
-\end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile, noframenumbering]
-\frametitle{Overfit}
-
-
-        \begin{figure}[H] \centering
-            \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/fig_1h.pdf}
- \end{figure}
-
-\end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
 \frametitle{Overfit}
@@ -354,7 +560,7 @@ Este resultado es muy importante,
 
 \begin{itemize}
 
-  \item Bias ?
+  \item Sesgado ?
 
 \end{itemize}
 
@@ -403,14 +609,122 @@ Después de  $p^*$ aumentar la complejidad no reduce el sesgo, pero la varianza 
   \medskip
   \item Como medimos el error de predicción fuera de muestra?
   \medskip
-  \item $R^2$ no funciona: mide predicción dentro de muestra, es no decreciente en complejidad
+  \item $R^2$ no funciona: se concentra en la muestra y es no decreciente en complejidad
 \end{itemize}
 
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile, noframenumbering]
+\frametitle{Overfit}
+
+
+        \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.4]{figures/fig_1g.pdf}
+ \end{figure}
+
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile, noframenumbering]
+\frametitle{Overfit}
+
+
+        \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.4]{figures/fig_1h.pdf}
+ \end{figure}
+
+\end{frame}
+%----------------------------------------------------------------------%
+
+%----------------------------------------------------------------------%
+\subsection{AIC: Akaike Information Criterion}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{AIC}
+
+\begin{itemize}
+
+\item Akaike (1969) fue el primero en ofrecer un enfoque unificado al problema de la selección de modelos.
+
+\item Su punto de vista fue elegir un modelo del conjunto $ {f_i} $ que funcionó bien cuando se evaluó sobre la base del rendimiento de la previsión. 
+
+\item Su criterio, que ha llegado a llamarse criterio de información de Akaike, es
+
+\begin{align}
+AIC(j) = log \left( \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y} )^2\right) - p_j
+\end{align}
+
+
+
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------%
+\subsection{SIC/BIC: Schwarz/Bayesian Information Criterion}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{BIC}
+\begin{itemize}
+\item Schwarz (1978) mostró que, si bien el enfoque $AIC$ puede ser bastante satisfactorio para seleccionar un modelo de pronóstico
+\item Sin embargo, tiene la desafortunada propiedad de que es inconsistente, (cuando $n \rightarrow \infty$, tiende a elegir un modelo demasiado grande con probabilidad positiva)
+
+\item Schwarz (1978) formalizó el problema de selección de modelos desde un punto de vista bayesiano:
+\begin{align}
+SIC(j) = log \left( \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y} )^2\right) -\frac{1}{2} p_j log(n)
+\end{align}
+
+
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{AIC vs BIC}
+
+\begin{align}
+AIC(j) = log \left( \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y} )^2\right)- p_j
+\end{align}
+
+
+\begin{align}
+SIC(j) = log \left( \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y} )^2\right) -  p_j \frac{1}{2} log(n)
+\end{align}
+
+\begin{itemize}
+\item Note que  
+
+\begin{align}
+\frac{1}{2} log(n) > 1 \,\,\, for \,\,\, n > 8
+\end{align}
+
+ \item La penalidad de SIC es mayor que la penalidad de AIC, 
+ \item SIC tiende a elegir modelos más pequeños. 
+ \item En efecto, al dejar que la penalización tienda al infinito lentamente con $n$, eliminamos la tendencia de AIC a elegir un modelo demasiado grande.
+
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Métodos de resampleo}
+
+\begin{itemize}
+  \item Los métodos de resampleo son una herramienta indispensable de la estadística moderna.
+  \medskip
+  \item Estos envuelven sacar muestras aleatorias de nuestra muestra y reajustar el modelo de interés en cada muestra para obtener información adicional del modelo.
+  \medskip
+  \item Quizás el método más conocido por ustedes es el de bootstrap.
+  \medskip
+  \item Nosotros vamos a discutir la validación cruzada (cross-validation)
+\end{itemize}
 
 \end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{Overfit y Predicción fuera de Muestra}
+\frametitle{Error de Prueba y de Entrenamiento}
 
 
 \begin{itemize}
@@ -421,17 +735,17 @@ Después de  $p^*$ aumentar la complejidad no reduce el sesgo, pero la varianza 
   \item {\it Test Error}: es el error de predicción en la muestra de prueba (test)
   \medskip
   \begin{align}
-    Err_{\mathcal{T}est} =MSE[(Y,\hat Y)|\mathcal{T}est]
+    Err_{\mathcal{T}est} =MSE[(y,\hat y)|\mathcal{T}est]
   \end{align}
   \medskip
   \item {\it Training error}:es el error de predicción en la muestra de entrenamiento (training)
   \medskip
   \begin{align}
-    Err_{\mathcal{T}rain} = MSE[(Y,\hat Y)|\mathcal{T}rain]
+    Err_{\mathcal{T}rain} = MSE[(y,\hat y)|\mathcal{T}rain]
   \end{align}
     \end{itemize}
     \medskip
-  \item Como elegimos $\mathcal{T}est$?
+  \item Cómo elegimos $\mathcal{T}est$?
   
 \end{itemize}
 
@@ -489,7 +803,7 @@ Después de  $p^*$ aumentar la complejidad no reduce el sesgo, pero la varianza 
 \scriptsize
 \item Izquierda: error de predicción en la muestra de prueba para una sola partición
 \item Derecha: error de predicción en la muestra de prueba para varias particiones
-\item  Hay un monton de variabilidad. (Necesitamos algo mas estable)
+\item  Hay un montón de variabilidad. (Necesitamos algo mas estable)
 \end{itemize}
 
 
@@ -567,13 +881,13 @@ Después de  $p^*$ aumentar la complejidad no reduce el sesgo, pero la varianza 
   \medskip
   \item Calcular el error de predicción en la parte (fold) que dejamos afuera 
   \begin{align}
-  \bar{err_j}=MSE_j=\frac{1}{n_j}\sum L(y_j^k,\hat y_{-j})
+  MSE_j=\frac{1}{n_j}\sum (y_j^k-\hat y_{-j})^2
   \end{align}
   \medskip
 \item Promediar
 
 \begin{align}
-CV_{(k)}=\frac{1}{k}\sum_{j=1}^k \bar{err_j}= \frac{1}{k}\sum_{j=1}^k MSE_j
+CV_{(k)}= \frac{1}{k}\sum_{j=1}^k MSE_j
 \end{align}
 \end{itemize}
 
@@ -603,7 +917,7 @@ CV_{(k)}=\frac{1}{k}\sum_{j=1}^k \bar{err_j}= \frac{1}{k}\sum_{j=1}^k MSE_j
 \begin{itemize}
   \item Supongamos que $\alpha$ parametriza la complejidad del modelo (en nuestro ejemplo el grado del polinomio)
   \medskip
-  \item Primero calculamos el CV error para un grupo de modelos ($\alpha$), y elegimos el minimo
+  \item Primero calculamos el CV error para un grupo de modelos ($\alpha$), y elegimos el mínimo
 
 \end{itemize}
 \begin{align}
@@ -648,13 +962,17 @@ CV_{(k)}=\frac{1}{k}\sum_{j=1}^k \bar{err_j}= \frac{1}{k}\sum_{j=1}^k MSE_j
 \end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{Review \& Next Steps}
+\frametitle{Revisión \& Próximos Pasos}
   
-\begin{itemize} 
-    \item Today:
+Hoy
     \medskip
     \begin{itemize} 
-         \item Overfit and out of Sample Prediction
+        \item Dilema Sesgo/Varianza
+         \medskip
+         \item Sobreajuste y Selección de modelos
+         \medskip
+         \begin{itemize}  
+         \item AIC y BIC
          \medskip
          \item Metodos de Resampleo
         \begin{itemize}  
@@ -664,36 +982,17 @@ CV_{(k)}=\frac{1}{k}\sum_{j=1}^k \bar{err_j}= \frac{1}{k}\sum_{j=1}^k MSE_j
             \medskip
             \item K-fold Cross-Validation (Validación Cruzada)
       \end{itemize}
-    \end{itemize}
-    \bigskip  
+      \end{itemize}
+    
 
 
 
 
 \end{itemize}
-\end{frame}
-
-%----------------------------------------------------------------------%
-\section{Further Readings}
-%----------------------------------------------------------------------%
-\begin{frame}
-\frametitle{Further Readings}
-
-\begin{itemize}
 
 
-  \item Friedman, J., Hastie, T., \& Tibshirani, R. (2001). The elements of statistical learning (Vol. 1, No. 10). New York: Springer series in statistics.
-  \medskip
-  \item James, G., Witten, D., Hastie, T., \& Tibshirani, R. (2013). An introduction to statistical learning (Vol. 112, p. 18). New York: springer.
-  \medskip
-    \item Kohavi, R. (1995). A study of cross-validation and bootstrap for accuracy estimation and model selection. In Ijcai (Vol. 14, No. 2, pp. 1137-1145).
-  \medskip
-  \item Lovelace, R., Nowosad, J., \& Muenchow, J. (2019). Geocomputation with R. CRC Press. (Chapters 2 \& 6)
-\end{itemize}
 
 \end{frame}
-
-
 %----------------------------------------------------------------------%
 \section{Break}
 \begin{frame}
@@ -701,15 +1000,25 @@ CV_{(k)}=\frac{1}{k}\sum_{j=1}^k \bar{err_j}= \frac{1}{k}\sum_{j=1}^k MSE_j
 
 \begin{centering}
 \huge
-\textcolor{andesred}{Volvemos en 5 min con \texttt{Python} }
+\textcolor{andesred}{Volvemos en 15 mins con \texttt{R} }
 
 \end{centering}
 
 \end{frame}
 %----------------------------------------------------------------------%
-\section{Continuamos con \texttt{Python y Webscraping}}
+\section{\texttt{R para ML}}
 %----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{R para ML}
 
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.35]{figures/baticomputer_meme.jpg}
+  \\
+  \tiny photo from \url{https://www.dailydot.com/parsec/batman-1966-labels-tumblr-twitter-vine/}
+\end{figure}
 
+\end{frame}
+%----------------------------------------------------------------------%
 %----------------------------------------------------------------------%
 \end{document}
