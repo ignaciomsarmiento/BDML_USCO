@@ -50,7 +50,7 @@ Finalmente, y no menos importante, es gratuito y siempre lo será.
 
 
 
-# Descargar e Instalar `R``
+# Descargar e Instalar `R`
 
 Podemos obtener una copia gratuita de `R` en [CRAN (Comprehensive R Archive Network)](<http://cran.r-project.org>) y eligiendo su sistema operativo. El siguiente  `.gif` ilustra como hacerlo a través de google:
 
