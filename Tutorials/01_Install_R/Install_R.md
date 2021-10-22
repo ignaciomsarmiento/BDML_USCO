@@ -61,11 +61,11 @@ Una vez descargado, siga las instrucciones para instalarlo.
 
 
 
-# La Interface de `R` y `Rstudio`
+# La Interfaz de `R` y `Rstudio`
 
 Luego de descargar `R`, podemos trabajar al menos de dos formas: utilizando una interfaz gráfica o trabajando en `batch mode`. Pero dado que esto es una introducción dejaremos el `batch mode` para otro momento, y nos centraremos en las interfaces gráficas.  
 
-Al usar `R` de forma interactiva o con scripts, puede usar una interfaz gráfica de usuario (GUI). LA distribución de `R` estándar viene con una interfaz gráfica lista para ser utilizada. Luego de instalar `R`, notará que creo un  acceso directo en su escritorio. Haciendo doble click en este podra usar la GUI.
+Al usar `R` de forma interactiva o con scripts, puede usar una interfaz gráfica de usuario (GUI). La distribución de `R` estándar viene con una interfaz gráfica lista para ser utilizada. Luego de instalar `R`, notará que creo un  acceso directo en su escritorio. Haciendo doble click en este podrá usar la GUI.
 
 Otra opción, y la que usaremos en el curso, es [RStudio](https://www.rstudio.com/), que también es gratuito y de código abierto. El siguiente  `.gif` ilustra como hacerlo a descargarlo con google:
 
@@ -76,9 +76,9 @@ Otra opción, y la que usaremos en el curso, es [RStudio](https://www.rstudio.co
 
 # Primeros pasos en `R`
 
-El siguiente paso es aprender la sintaxis de `R`, lo que significa aprender sus reglas. :uego de abrir el `RGUI` o [RStudio](https://www.rstudio.com/), verá la consola, que muestra los resultados de su análisis, o cualquier mensaje asociado con el código  ingresado en la línea de comando (después de la flecha `>`).
+El siguiente paso es aprender la sintaxis de `R`, lo que significa aprender sus reglas. Luego de abrir el `RGUI` o [RStudio](https://www.rstudio.com/), verá la consola, que muestra los resultados de su análisis, o cualquier mensaje asociado con el código  ingresado en la línea de comando (después de la flecha `>`).
 
-Por ejemplo, podemos usar `R` como calculadora, por ejemplo pruebe:
+Por ejemplo, podemos usar `R` como calculadora, pruebe:
 
 
 
@@ -102,8 +102,7 @@ o
 [1] 0
 ```
 
-El `[1]` indica que es el primer resultado del comando, y en este caso, el ùnico. Pero puede tambien ingresar algo son multiples valores, por ejemplo, una secuencia de enteros desde el 10 al 40:
-
+El `[1]` indica  que es el primer resultado del comando, y en este caso, el único. Pero puede también ingresar algo son múltiples valores, por ejemplo, una secuencia de enteros desde el 10 al 40:
  
 
 ```r
@@ -115,10 +114,10 @@ El `[1]` indica que es el primer resultado del comando, y en este caso, el ùnic
 [26] 35 36 37 38 39 40
 ```
 
-La primer linea inicia con el primer valor retornado, designado con `[1]`, la segunda linea comienza con el 26vo, designado con `[26]`.
+La primer línea  inicia con el primer valor retornado, designado con `[1]`, la segunda línea  comienza con el 26vo, designado con `[26]`.
 
 
-Para salir de su seción puede escribir simplemente o cerrar [RStudio](https://www.rstudio.com/):
+Para salir de su sesión puede escribir simplemente o cerrar [RStudio](https://www.rstudio.com/):
 
 
 ```r
@@ -128,21 +127,20 @@ Para salir de su seción puede escribir simplemente o cerrar [RStudio](https://w
 
 # Paquetes de `R`
 
-
-Cuando instalamos `R` sus funciones básica si bien podersas solo reflejan una pequeña fracción de lo que es posible hacer en `R`. Es mas, nos referimos a estas funciones como `base R`. La funcionalidades adicionales vienen dadas por paquetes.
+Cuando instalamos `R` sus funciones básicas, si bien poderosas, sólo reflejan una pequeña fracción de lo que es posible hacer en R. Es más, nos referimos a estas funciones como `base R`. Las funcionalidades adicionales vienen dadas por paquetes.
 
 Un paquete junta código, datos, documentación y pruebas, de forma tal que es fácil de compartir con otros. En `R`, uno puede compartir código a través de estos paquetes. 
 
 En octubre de 2021, hay más de 18,300 paquetes disponibles [CRAN](<http://cran.r-project.org>). Esta enorme variedad de paquetes es una de las razones por las que `R` tiene tanto éxito: lo más probable es que alguien ya haya resuelto un problema en el que estamos trabajando y por lo tanto podemos beneficiarnos de su trabajo descargando su paquete. Por ejemplo, yo he creado dos paquetes: [RATest](https://cran.r-project.org/web/packages/RATest/index.html) e [ioanalysis](https://cran.r-project.org/web/packages/ioanalysis/)
 
-En este curso utilizaremos varios paquetes, los principales serán [tidyverse](https://www.tidyverse.org/), [tidymodels](https://www.tidymodels.org/), [here](https://here.r-lib.org/), y [caret](https://cran.r-project.org/web/packages/caret/index.html). Para instalar un paquete utilizamos la función `install.packages()`
+En este curso utilizaremos varios paquetes, los principales serán [tidyverse](https://www.tidyverse.org/), [tidymodels](https://www.tidymodels.org/), y [caret](https://cran.r-project.org/web/packages/caret/index.html). Para instalar un paquete utilizamos la función `install.packages()`
 
 
 ```r
 install.packages("tidyverse")
 ```
 
-En [RStudio](https://www.rstudio.com/), tambiee2én puede hacerlo en la pestaña de `Tools`. 
+En [RStudio](https://www.rstudio.com/), también puede hacerlo en la pestaña de `Tools`. 
 
 Una vez instalado hay que llamarlo o cargarlo con la función
 
@@ -151,17 +149,18 @@ Una vez instalado hay que llamarlo o cargarlo con la función
 library(tidyverse)
 ```
 
-Una vez instalados no es necesario volverlos a instalar pero si cargarlos cuando vamos a utilizarlos. Recordemos, también que los paquetes estan instalados en `R` (el motor), y no en [RStudio](https://www.rstudio.com/) (la interface).
+Una vez instalados no es necesario volverlos a instalar, pero si cargarlos cuando vamos a utilizarlos. Recordemos, también que los paquetes están instalados en `R` (el motor), y no en [RStudio](https://www.rstudio.com/) (la interface).
 
-Finalmente, podemos ver todos los paquetes que tenemos isntalados con la función:
+Finalmente, podemos ver todos los paquetes que tenemos instalados con la función:
+
 
 ```r
 installed.packages()
 ```
 
 
-# Proximos pasos
+# Próximos pasos
 
-En la primer clase veremos con mas profundidad como trabajar en `R`. Si tiene preguntas o problemas instalando, no dude en enviarme un `Slack`.
+En la primera clase veremos con mas profundidad como trabajar en `R`. Si tiene preguntas o problemas instalando, no dude en enviarme un `Slack`.
 
 
