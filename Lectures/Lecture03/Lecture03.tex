@@ -92,6 +92,7 @@
 \setbeamercolor{button}{bg=gray!30!white,fg=andesred}
 
 
+
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
 \newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
@@ -134,32 +135,14 @@
 \usepackage{graphicx}
 \makeatletter
 
-\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
-
-\usepackage{tikz}
-% Tikz settings optimized for causal graphs.
-\usetikzlibrary{shapes,decorations,arrows,calc,arrows.meta,fit,positioning}
-\tikzset{
-    -Latex,auto,node distance =1 cm and 1 cm,semithick,
-    state/.style ={ellipse, draw, minimum width = 0.7 cm},
-    point/.style = {circle, draw, inner sep=0.04cm,fill,node contents={}},
-    bidirected/.style={Latex-Latex,dashed},
-    el/.style = {inner sep=2pt, align=left, sloped}
-}
-
-
 \makeatother
-
-
-
-
 
 
 %%%%%%%%%%%%%%% BEGINS DOCUMENT %%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
-\title[Lecture 03]{Lecture 03: \\ Overfit \& Cross Validation}
+\title{Lecture 3:  Regularizacion y Clasificacion}
 \subtitle{Aprendizaje y Minería de Datos para los Negocios}
 \date{\today}
 
@@ -172,536 +155,1018 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Motivation              %
+% What is the question?
+% Why do we care?
+% What is new?
+% What do you find?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%----------------------------------------------------------------------%
-\begin{frame}
-\frametitle{Announcements}
 
-\begin{itemize}
-  \item Problem Set 3 deadline change to October 15. You {\bf should not} work on the break.
-  \item Problem Sets 4, 5, and 6 are up.
-  \item Final Project
-  \medskip
-  \begin{itemize}
-    \item First deadline. October 22. 
-    \begin{itemize}
-     \item This submission should be a brief statement of what you plan to do. 
-     \item Max 2 pages.
-     \end{itemize}
-     \medskip
-    \item  Second deadline. Presentations. November 30th, December 2nd, and 3rd.
-      \medskip
-    \item  Final document. December 10th at 6 pm
-  \end{itemize}
 
-\end{itemize}
-
-\end{frame}
-
-%----------------------------------------------------------------------% 
 
 \begin{frame}
 \frametitle{Agenda}
 
 \tableofcontents
 
-\end{frame}
-
-%----------------------------------------------------------------------%
-\section{Recap}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Linear Models}
-
-\begin{itemize}
-
- \item Last class we talked about the linear model
-
-    \begin{align}
-    y = X \beta + u
-    \end{align}
-    
-\item We focused on predicting $y$ and the connection to classical econometrics
-\medskip
-\item In the classical view, the linearity is given and the notion of complexity is somehow easily defined.
-\end{itemize}
 
 \end{frame}
 %----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{General Models}
-
-\begin{itemize}
-\item However, we can think about more general models
-
-\begin{align}
-    y = f(X)  + u
-    \end{align}
-
-\item where $f$ is some fixed but unknown function of X and u is a mean-zero error which is independent of x
-\item  The emphasis here is that this is a statistical model. There is nothing causal in it. In the model, $f$ represents the systematic relationship between X and y and u represents idiosyncratic deviations from this systematic relationship.
-\medskip
-\item  Note that:
-\begin{itemize}
-  \item f is not restricted in any way – it can be a completely arbitrary and complex function.
-  \item  Predicting $y$ involves \emph{learning} $f$, that is, $f$ is no longer taken as given, as in the classical view. 
-  \item It implies an iterative process where initial choices for $f$ are revised in light of potential improvements in predictive performance.
-\end{itemize}
-  
-  
-
-\end{itemize}
-\end{frame}
+\section{Recap} 
 %----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Supervised Learning}
+%----------------------------------------------------------------------%
+\subsection{Predicción} 
+%----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+\begin{frame}
+\frametitle{Predicción y Error Predictivo}
 
-\begin{align}
-    y = f(X)  + u
-    \end{align}
 
 \begin{itemize}
-\item The problem of learning $y$ based on features $X$ is known as a supervised learning task.
-\medskip
-\item $y$ supervises the learning.
-
-\item For prediction we don’t care about f itself. We can treat it as a black box, and any approximation $\hat f$ that yields a good prediction is good enough.
-
+  \item El objetivo es predecir $y$ dadas otras variables $X$. 
+  \bigskip
+  \item Asumimos que el link entre $y$ and $X$ esta dado por el modelo:
+\end{itemize}
 \bigskip
-
-\begin{quote}
-\centering
-Whatever works, works.
-\end{quote}
-
-
+\begin{align}
+  y = f(X) + u
+\end{align}
+\bigskip
+\begin{itemize}
+  \item donde $f(X)$ es cualquier función, 
+  \bigskip
+  \item  $u$ una variable aleatoria no observable $E(u)=0$ and $V(u) = \sigma^2$
 \end{itemize}
 
-\end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Supervised Learning}
-
-\begin{itemize}
-\item What is ‘what works’, i.e., what is a good prediction?
-\medskip
-\item  Formally, a supervised learning algorithm takes as an input a loss function and searches for a function $\hat{f}$ within a function class $\mathcal{F}$ that has a low expected prediction loss
-\medskip
-
-\item The goal here is to solve something which looks like
-\begin{align}
-\hat{f}=\underset{f\in\mathcal{F}}{\text{argmin}}\left\lbrace E \left(L(y,f(X) \right) \right\rbrace
-\end{align}
-\medskip
-
-for some loss function $L$, and for some set of predictors $\mathcal{F}$. 
-\medskip
-\item Note that here in a function space, so we are solving for a function not a point.
-
-
-
-\end{itemize} 
 
 \end{frame}
 
 %----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{Error Decomposition}
+\frametitle{Predicción y Error Predictivo}
 
-\begin{itemize} 
-\item The most common function is the squared error loss $\rightarrow$ MSE
+\begin{itemize}
+  \item En la práctica no conocemos $f(X)$
   \medskip
+  \item Es necesario estimarla $\hat y = \hat f(X)$ 
+  \medskip
+  \item La medida de cuan bien funciona nuestro modelo es 
+    \begin{align}
+      MSE(y)= \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i )^2
+    \end{align}
+  
+  \item Notemos que podemos descomponer el $MSE$ en dos partes
+\end{itemize}
+
 \begin{align}
-E \left(L(y,\hat{y}) \right)  &= E(y-\hat f)^2  \\
-                 &= E(f-\hat{f})^2 + E(u^2) \\
-                 &=\underset{Reducible\,error}{ MSE(\hat f)} +  \underset{Irreducible\,error}{E(u^2)} 
+  MSE (  y )  &= MSE(\hat f) + \sigma^2  \\  
+  &= Bias^2(\hat f) + V(\hat f) +  \sigma^2
 \end{align}
+
+\begin{itemize}
+  \item  el error de estimar $f$ con $\hat f$. (\emph{reducible})
+  \item  el error de no observar $u$, $\sigma^2$. (\emph{irreducible})
+  \item  dilema entre sesgo y varianza
+\end{itemize}
 
 \medskip
 
-  \item There is a lower bound to the accuracy of the best possible prediction for a given $f$, given by the variance of the idiosyncratic error.
-  
+\end{frame}
+
+
+
+%----------------------------------------------------------------------%
+\subsection{Overfit}
+%----------------------------------------------------------------------%
+
+%----------------------------------------------------------------------%
+\begin{frame}<1>[label=overfit]
+\frametitle{Overfit y Predicción fuera de Muestra}
+
+
+\begin{itemize}
+  \item ML nos interesa la predicción fuera de muestra
+  \medskip
+  \item Overfit: modelos complejos predicen muy bien dentro de muestra, pero tienden a hacer un trabajo fuera de muestra 
+  \pause
+  \medskip
+  \item Hay que elegir el modelo que ``mejor'' prediga
+  \medskip
+
+    \begin{itemize}
+    \item Medidas Clásicas
+      \scriptsize
+      \begin{align}
+      AIC(j) &= log \left( \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i )^2\right)- p_j \\
+      SIC(j) &= log \left( \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i )^2\right) -  p_j \frac{1}{2} log(n)
+      \end{align}
+
+    \item Métodos de Remuestreo
+      \begin{itemize}
+      \item Validación cruzada en K-partes (5 o 10)
+      \item Usar el MSE
+      \end{itemize}
+    \end{itemize}
+
 \end{itemize}
 
 \end{frame}
 %----------------------------------------------------------------------%
-\section{Overfit}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
+\begin{frame}[fragile, noframenumbering]
 \frametitle{Overfit}
 
-\begin{itemize} 
-  \item Why don’t we estimate the most flexible function that we can?
-\end{itemize}
+
         \begin{figure}[H] \centering
             \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/fig_1a.pdf}
+              \includegraphics[scale=0.4]{figures/fig_1g.pdf}
  \end{figure}
-
 
 \end{frame}
 %----------------------------------------------------------------------%
-\begin{frame}[fragile]
+\begin{frame}[fragile, noframenumbering]
 \frametitle{Overfit}
 
-\begin{itemize} 
-  \item Why don’t we estimate the most flexible function that we can?
-\end{itemize}
-        \begin{figure}[H] \centering
-            \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/fig_1h_0.pdf}
- \end{figure}
 
-
-\end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Overfit}
-
-\begin{itemize} 
-  \item In practice, it doesn't work $\rightarrow$ leads to a terrible out-of-sample fit.
-  \item  A deeper answer says that maximal flexibility leaves all the idiosyncratic noise in the prediction model. A new observation with the same x will have a different idiosyncratic noise, and so the prediction is off.
-  
-\end{itemize}
         \begin{figure}[H] \centering
             \captionsetup{justification=centering}
               \includegraphics[scale=0.4]{figures/fig_1h.pdf}
  \end{figure}
 
+\end{frame}
+%----------------------------------------------------------------------%
+\againframe<2>{overfit}
+
+%----------------------------------------------------------------------%
+\section{Regularización}
+%----------------------------------------------------------------------%
+
+\begin{frame}[fragile]
+\frametitle{}
+
+
+\centering
+{\huge \textcolor{andesred}{Regularización}}
+
 
 
 \end{frame}
 
-
-
 %----------------------------------------------------------------------%
-\subsection{Overfit and out of Sample Prediction}
+\subsection{Lasso}
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{Overfit and out of Sample Prediction}
-
+\frametitle{Lasso}
 
 \begin{itemize}
-  \item ML we care about prediction out of sample
-  \medskip
-
-  \item To avoid overfitting, we need to find the optimal degree of flexibility.
-\medskip
-  \item Overfitting is an illustration of the bias-variance trade-off 
+\item Para un $\lambda \geq 0$ dado, consideremos el siguiente problema de optimización
 
 
 \begin{align}
-E \left(L(y,\hat{f} \right)  &= E(y-\hat f)^2  \\
-                 &= E(f-\hat{f})^2 + E(u^2) \\
-                 &=  MSE(\hat f) + E(u^2) \\
-                 &=  E(f-\hat f)^2 +E(\hat f-E(\hat f))^2+ E(u^2) \\
-                 &= Bias^2(\hat f) + V(\hat f) + E(u^2)
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-\beta_0 - x_{i1}\beta_1 - \dots - x_{ip}\beta_p)^2 + \lambda \sum_{j=1}^p |\beta_j| 
 \end{align}
 
-\item Flexibility reduces bias but increases variance. There is an optimal degree of flexibility
+\medskip
+\pause
+  \begin{itemize}
+    \item  ``LASSO's free lunch'': selecciona automáticamente los predictores que van en el modelo ($\beta_j \neq 0$) y los que no   ($\beta_j = 0$)
+    \medskip
+    \item Porque? Los coeficientes que no van son soluciones de esquina
+    \medskip
+    \item  $L(\beta)$ es no differentiable
   \end{itemize}
-\end{frame}
-  %----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Overfit and out of Sample Prediction}
+\end{itemize}
 
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Lasso Intuición en 1 Dimension}
 
 \begin{itemize}
+\item Lasso Intuición
+\end{itemize}
 
+\bigskip
+
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+\begin{itemize}
+  \item Un solo predictor, un solo coeficiente
   \medskip
-  \item Choose the right complexity level
+  \item Si $\lambda=0$
+\begin{align}
+  min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 
+  \end{align}
+  \item y la solución es
+  \begin{align}
+    \hat{\beta}_{OLS}
+  \end{align}
+  
+\end{itemize}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso0.pdf}
+ \end{figure}
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso1.pdf}
+ \end{figure}
+
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso2.pdf}
+ \end{figure}
+
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso3.pdf}
+ \end{figure}
+
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso4.pdf}
+ \end{figure}
+
+
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso5.pdf}
+ \end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso6.pdf}
+ \end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+ min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/lasso_final.pdf}
+ \end{figure}
+
+ \end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 1 Dimension}
+
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-x_i \beta)^2 + \lambda|\beta| 
+\end{align}
+
+la solución analítica es 
+\medskip
+\begin{align}
+\hat{\beta}_{lasso}=\begin{cases}
+0 & \text{\text{si} }\ensuremath{\lambda\geq \lambda^*}\\
+\hat{\beta}_{OLS}-\frac{\lambda}{2} & \text{\text{si} }\ensuremath{\lambda<\lambda^*}
+\end{cases}
+\end{align}
+
+
+
+ \end{frame}
+%----------------------------------------------------------------------%
+\subsection{Ridge}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Ridge}
+
+\begin{itemize}
+\item Para un $\lambda \geq 0$ dado, consideremos ahora el siguiente problema de optimización
+
+
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-\beta_0 - x_{i1}\beta_1 - \dots - x_{ip}\beta_p)^2 + \lambda \sum_{j=1}^p (\beta_j)^2
+\end{align}
+
+\bigskip
+\item La intuición es similar a lasso, pero la vamos a extender a 2-Dim
+
+\end{itemize}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (OLS)}
+
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2 
+\end{align}
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/ols1}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (OLS)}
+
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2 
+\end{align}
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/ols2}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (Ridge)}
+
+\begin{itemize}
+\item Al problema
+
+  \begin{align}
+  min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-\beta_0 - x_{i1}\beta_1 - \dots - x_{ip}\beta_p)^2 + \lambda \sum_{j=1}^p (\beta_j)^2
+  \end{align}
+\medskip 
+\item podemos escribirlo como
+  \begin{align}
+     min_{\beta} E(\beta) &= \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2  \\ \nonumber
+     & \text{sujeto a}   \\
+     & \left( (\beta_1)^2 + (\beta_2)^2 \right) \leq c \nonumber
+  \end{align}
+
+\end{itemize}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (Ridge)}
+
+\begin{align}
+     min_{\beta} E(\beta) &= \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2  \text{ s.a }   \left( (\beta_1)^2 + (\beta_2)^2 \right) \leq c 
+  \end{align}
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/ridge1}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (Ridge)}
+
+\begin{align}
+     min_{\beta} E(\beta) &= \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2  \text{ s.a }   \left( (\beta_1)^2 + (\beta_2)^2 \right) \leq c 
+  \end{align}
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/ridge2}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (Ridge)}
+
+\begin{align}
+     min_{\beta} E(\beta) &= \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2  \text{ s.a }   \left( (\beta_1)^2 + (\beta_2)^2 \right) \leq c 
+  \end{align}
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/ridge3}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (Ridge)}
+
+\begin{align}
+     min_{\beta} E(\beta) &= \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2  \text{ s.a }   \left( (\beta_1)^2 + (\beta_2)^2 \right) \leq c 
+  \end{align}
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/ridge4}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Intuición en 2 Dimensiones (Lasso)}
+
+\begin{align}
+     min_{\beta} E(\beta) &= \sum_{i=1}^n (y_i - x_{i1}\beta_1 - x_{i1}\beta_2)^2  \text{ s.a }   \left( |\beta_1| + |\beta_2| \right) \leq c 
+  \end{align}
+
+\begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.4]{figures/lasso_ridge2}
+ 
+\tiny
+Fuente: \url{https://allmodelsarewrong.github.io}
+\end{figure}
+
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Lasso y Ridge Ejemplo}
+
+   \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.6]{figures/comp}
+ \end{figure}
+
+ \end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Comentarios técnicos}
+
+\begin{itemize}
+ \item Lasso y ridge son sesgados, pero las disminuciones en varianza pueden compensar estoy y llevar a un MSE menor
+ \medskip
+
+ \item Lasso encoje a cero, Ridge no tanto
+ \medskip
+ \item Importante para aplicación:
+\begin{itemize}
   \medskip
-  \item How do we measure the out of sample error? What is `out of sample'?
+ \item Estandarizar los datos (media 0, y varianza 1)
+ \medskip
+ \item Como elegimos $\lambda$?
+\end{itemize}
+\end{itemize}
+
+ \end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Comentarios técnicos: selección de $\lambda$ }
+\begin{itemize}
+ \item Como elegimos $\lambda$?
+ \item $\lambda$ es un parámetro y lo elegimos usando validación cruzada
+
+ \begin{enumerate}
+ \item Partimos la muestra de entrenamiento en K Partes: $M_{train}= M_{fold\,1} \cup M_{fold\,2} \dots \cup M_{fold\,K}$
+ \item Cada conjunto  $M_{fold\,K}$ va a jugar el rol de una muestra de evaluación $M_{eval\,k}$. Entonces para cada muestra
+ \begin{itemize}
+  \item  $M_{train-1}=M_{train} - M_{fold\,1}$
+  \item  $\vdots$
+  \item  $M_{train-k}=M_{train} - M_{fold\,k}$
+ \end{itemize}
+ \item Luego hacemos el siguiente loop
+ \begin{enumerate}
+ \item Para $\lambda_i=0,0.001,0.002,\dots,\lambda_{max}$ \\
+      - Para $k=1,\dots,K$ \\
+      $\,\,\,\,\,\,$- Ajustar el modelo $m_{i,k}$ con $\lambda_i$ en $M_{train-k}$ \\
+      $\,\,\,\,\,\,$- Calcular y guardar el $MSE(m_{i,k})$ usando $M_{eval-k}$ \\
+      - fin para k \\
+      - Calcular y guardar $MSE_i=\frac{1}{K} MSE(m_{i,k})$ \\
+\item fin para $\lambda$
+ \end{enumerate}
+ \item Encontrar el menor $MSE_i$ y usar ese $\lambda_i=\lambda^*$
+  \end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\section{Classification}
+%----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Classification}
+
+
+\centering
+{\huge \textcolor{andesred}{Classification}}
+
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Classification: Motivation}
+
+\begin{itemize}
+  \item Muchas de las preguntas predictivas suelen ser de clasificación
   \medskip
-  \item $R^2$ doesn't work: measures prediction in sample, it's non decreasing in complexity (PS1)
   \pause
+  \item Predecir si un usuario va a hacer click o no
   \medskip
-  \item MSE using resampling methods.
-\end{itemize}
-
-\end{frame}
-%----------------------------------------------------------------------%
-\section{Resampling Methods}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{What are resampling methods?}
-
-\begin{itemize}
-\item Tools that involves repeatedly drawing samples from a training set and refitting a model of interest on each sample in order to obtain more information about the fitted model
-\medskip
-\item Model Assessment: estimate test error rates 
-\medskip
-\item Model Selection: select the appropriate level of model flexibility
-\medskip
-\item They are computationally expensive! But these days we have powerful computers
-
-\end{itemize}
-
-
-
-
-\end{frame}
-%----------------------------------------------------------------------%
-\subsection{Validation Set Approach}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{The Validation Set Approach}
-
-\begin{itemize}
-\item Suppose that we would like to find a set of variables that give the lowest test (not training) error rate
-\item If we have a large data set, we can achieve this goal by randomly splitting the data into training and validation(testing) parts
-\item We would then use the training part to build each possible model (i.e. the different combinations of variables) and choose the model that gave the lowest error rate when applied to the validation data
-\end{itemize}
-
-       \begin{figure}[H] \centering
-            \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/fig51.png}
-       \end{figure}
-
-\end{frame}
-
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{The Validation Set Approach}
-\begin{itemize}
-\item Model $y=f(x) +u$ where $f$ is a polynomial of degree $p^*$. 
-\scriptsize
-\item Left: Validation error rate for a single split 
-\item Right: Validation method repeated 10 times, each time the split is done randomly! 
-\item  There is a lot of variability among the MSE’s… Not good! We need more stable methods!
-\end{itemize}
-
-
- \begin{figure}[H] \centering
-            \captionsetup{justification=centering}
-              \includegraphics[scale=0.7]{figures/fig52.png}
-       \end{figure}
-\end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{The Validation Set Approach}
-
-\begin{itemize}
-  \item Advantages:
+  \item Decidir si alguien va a ``default'' el credito
   \medskip
-    \begin{itemize}
-      \item Simple
-      \medskip
-      \item Easy to implement
-      \medskip
-      \item It may be sensible with really big n
+  \item La afiliación política basado en los discursos
+  \medskip
+  \item La diferencia es que ahora $y$ representa la pertenencia a una clase
+  \medskip
+  \item $y\in \{0,1,\dots,m\}$ 
+    \begin{quote}
+      La pregunta es: dado un nuevo conjunto de predictores $X$ es nuestra mejor predicción de la categoría a la que pertenece  
+    \end{quote}
+\end{itemize}
+
+
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+\subsection{K vecinos cercanos (KNN)}
+%----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{K vecinos cercanos (KNN)}
+
+\begin{itemize}
+\item K vecinos cercanos predice la clase $\hat y$ a partir de $x$ preguntandose \\
+{\it Cual es la clase mas común para la observarción alrededor x?}
+\end{itemize}
+        \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.13]{figures/knn}
+              \\
+              \tiny
+              Source: Taddy (2019)
+ \end{figure}
+
+ \end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{K vecinos cercanos (KNN)}
+
+\begin{itemize}
+\item K vecinos cercanos predice la clase $\hat y$ a partir de $x$ preguntandose \\
+{\it Cual es la clase mas común para la observarción alrededor x?}
+\item Algoritmo: dado el insumo  $x_f$ donde nos gustaría la clase:
+
+\begin{itemize}
+  \item Encontrar los K vecnos mas cercanos, donde cercanos lo definimos a partir de una distancia, la más común es la euclideana
+  \begin{align}
+  d(x_i,x_f)=\sqrt{\sum_{j=1}^p(x_{ij}-x_{fj})^2}
+  \end{align}
+  \item Esto nos da los K vecinos cercanos:
+  \begin{align}
+  [x_{i1},y_{i1}],\dots,[x_{iK},y_{iK}]
+  \end{align}
+  \item La clase predicha es la más común
+  \begin{align}
+  \hat{y}_f =mode\{y_{i1},\dots,y_{iK}\}
+  \end{align}
+\end{itemize}
+
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{K vecinos cercanos (KNN)}
+\begin{itemize}
+  \item Hay algunos problemas en aplicaciones
+  \medskip
+  \begin{itemize}
+  \item Las predicciones son inestables como función de $K$
     \end{itemize}
-  \item Disadvantages:
-  \medskip
-    \begin{itemize}
-      \item The validation MSE can be highly variable, i.e. , is highly dependent on which observations are included in the testing sample.
-      \medskip
-      \item Statistical methods tend to perform worse when trained on fewer observations. They have poor small-sample properties; they perform better with increasing sample size. This leads us to overestimate the test MSE.
-      
 \end{itemize}
-\end{itemize}
-
-\end{frame}
-%----------------------------------------------------------------------%
-\subsection{LOOCV}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Leave-One-Out Cross Validation (LOOCV)}
-
-\begin{itemize}
-\item This method is similar to the Validation Set Approach, but it tries to address the latter’s disadvantages 
-\end{itemize}
-
- \begin{figure}[H] \centering
-            \captionsetup{justification=centering}
-              \includegraphics[scale=0.7]{figures/fig53.png}
-       \end{figure}
-
-
-\end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{Leave-One-Out Cross Validation (LOOCV)}
-
-
-\begin{itemize}
-\item Use a single observation for validation and (n - 1) observations for training.
-\medskip
-\item Fit the model leaving-one-out observation $\rightarrow \hat{y}_{-i}$.
-\medskip
-\item Cycle though all n observations
-\medskip
-\item The LOOCV estimate for the test MSE is
+  \begin{columns}[T] % align columns
+\begin{column}{.58\textwidth}
 \begin{align}
-LOOCV(n) &= \frac{1}{n}\sum MSE_{-i} \\ 
-      &= \frac{1}{n}\sum(y_i -\hat{y}_{-i})^2
-\end{align}
-\end{itemize}
-
-\end{frame}
-%----------------------------------------------------------------------%
-\subsection{K-fold Cross-Validation}
-%----------------------------------------------------------------------%
-\begin{frame}[fragile]
-\frametitle{K-fold Cross-Validation}
-\begin{itemize}
-\item LOOCV is computationally intensive, so we can run k-fold Cross Validation instead
-\end{itemize}
+  K&=1 \implies \hat{p}(white)=0 \nonumber \\
+  K&=2 \implies \hat{p}(white)=1/2 \nonumber \\
+  K&=3 \implies \hat{p}(white)=2/3 \nonumber \\
+  K&=4 \implies \hat{p}(white)=1/2 \nonumber 
+  \end{align}
 
 
- \begin{figure}[H] \centering
+\end{column}
+\hfill
+\begin{column}{.4\textwidth}
+\begin{figure}[H] \centering
             \captionsetup{justification=centering}
-              \includegraphics[scale=0.5]{figures/fig55.png}
-       \end{figure}
+              \includegraphics[scale=0.1]{figures/knn}
+              \\
+              \tiny
+              Source: Taddy (2019)
+ \end{figure}
+\end{column}
+\end{columns}
+  
+\end{frame}
 
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{K vecinos cercanos (KNN)}
+\begin{itemize}
+
+  \item Hay algunos problemas en aplicaciones
+  \medskip
+  \begin{itemize}
+  \item Las predicciones son inestables como función de $K$
+  \medskip
+  \item Esto hace que sea muy dificil elegir el K optimo y validación cruzada no funciona muy bien
+  \medskip
+  \item Dado que cada predicción  $x$ requiere un proceso de cuenta computacionalmente muy costoso, KNN no es muy util cuando trabajamos con Big Data
+  \medskip
+  \item KNN es una buena idea, pero demasiado crudo para ser util en la practica
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Probabilidades, Costos, y Clasificación}
+\pause
+\begin{itemize}
+  \item Dos estados de la naturaleza $y \rightarrow n\in\{0,1\}$
+  \medskip
+  \item Dos acciones $(\hat{y}) \rightarrow a\in \{0,1\}$
+  \medskip
+  \item Los aciertos y errores que cometemos al clasificar podemos resumirlos en
+\end{itemize}
+        \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.3]{figures/confusion_matrix}
+              \\
+              \tiny
+              Source: \url{https://dzone.com/articles/understanding-the-confusion-matrix}
+ \end{figure}
+
+
+ \end{frame}
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Probabilidades, Costos, y Clasificación}
+
+\begin{itemize}
+  \item Dos estados de la naturaleza $y \rightarrow n\in\{0,1\}$
+  \medskip
+  \item Dos acciones $(\hat{y}) \rightarrow a\in \{0,1\}$
+  \medskip
+  \item Probabilities
+  \begin{itemize}
+    \item $p=Pr(y=1|X)$
+    \item $1-p=Pr(y=0|X)$
+  \end{itemize}
+  \medskip
+  \item Las acciones tienen costos
+  \item y estas puede haber distintos costos asociados 
+
+\end{itemize}
 
 
 \end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{K-fold Cross-Validation}
+\frametitle{Probabilidades, Costos, y Clasificación}
 
 \begin{itemize}
-  \item Split the data into K parts $(n=\sum_{j=1}^k n_j)$
+  \item Para tomar una decisión optima, necesitamos estimar las probabilidades de los resultados posibles
   \medskip
-  \item Fit the model leaving out one of the folds $\rightarrow$ $\hat{y}_{-k}$
+  \item Estas probabilidades son las que permiten evaluar la perdida esperada
   \medskip
-  \item Cycle though all k folds
-  \medskip
-  \item The CV(k) estimate for the test MSE is
+  \item La perdida esperada por tomar la accion $a$ es
 
-
+\medskip
 \begin{align}
-CV_{(k)} &= \frac{1}{k}\sum_{j=1}^k MSE_j \\
-         &= \frac{1}{k}\sum_{j=1}^k (y_j^k-\hat{y}_{-k})^{2}
+E[Loss(a)] &= \sum_n p_n L(a,n) \\ \nonumber
 \end{align}
-\end{itemize}
 
+
+  \item Al conocer las probabilidades de los distintos resultados podemos evaluar la perdida esperada
+  
+\end{itemize}
 \end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{K-fold Cross-Validation}
+\frametitle{Probabilidades, Costos, y Clasificación}
+
 \begin{itemize}
-  \scriptsize
-\item Left: LOOCV  error curve
-\item Right: 10-fold CV was run many times, and the figure shows the slightly different CV error rates
-\item LOOCV is a special case of k-fold, where k = n
-\item They are both stable, but LOOCV (generally) is more computationally intensive! 
+  \item Afortunadamente sabemos como estimar probabilidades
+  \medskip
+  \begin{itemize}
+    \item K-vecinos cercanos
+    \item Modelo logístico
+    \item entre otras
+  \end{itemize}
+\medskip
+  %\item Hay un trade-off cada vez que elegimos una regla de classificación.
 \end{itemize}
+
+
+\end{frame}
+
+%----------------------------------------------------------------------%
+\subsection{Logit}
+%----------------------------------------------------------------------%
+
+\begin{frame}[fragile]
+\frametitle{Logit}
+
+\begin{itemize}
+  \item Podemos modelar la relación entre $p(X)$ y $X$
+
+    \begin{align}
+    Pr(y=1|X) &= f(X'\beta) 
+    \end{align}
+
+  \item usando la función logística  (sigmoid, softmax) 
+
+  \begin{align}
+  p(y=1|X)=\frac{e^{X'\beta}}{1+e^{X'\beta}}=\frac{exp(\beta_0 +\beta_1 x_1 + \dots +\beta_k x_k)}{1+exp(\beta_0 +\beta_1 x_1 + \dots +\beta_k x_k)}
+  \end{align}
+\end{itemize}
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Logit}
+
+
 
         \begin{figure}[H] \centering
             \captionsetup{justification=centering}
-              \includegraphics[scale=0.5]{figures/fig54.png}
-       \end{figure}
+              \includegraphics[scale=0.2]{figures/logistic}
+              \\
+              \tiny
+              Source: Taddy (2019)
+ \end{figure}
+
 \end{frame}
-
-
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{Bias- Variance Trade-off for k-fold CV}
+\frametitle{Logit}
+  \begin{itemize}
 
-\begin{itemize}
-  \item Bias:
-  \medskip
-    \begin{itemize}
-      \item Validation set approach tends to overestimate the test error set (less data, worst fit)
-      \item LOOCV, adds more data $\rightarrow$ less bias of the test error
-      \item K-fold an intermediate state
-    \end{itemize}
-    \item Variance:
-    \begin{itemize}
-      \item LOOCV we average the outputs of n fitted models, each is trained in almost identical set of observations $\rightarrow$ highly (positively) correlated
-      \item K-fold this correlation is smaller, we are averaging the output of k fitted model that are somewhat less correlated
-    \end{itemize}
+
+    \item Tenemos la probabilidad condicional
+    \begin{align}
+    Pr(y=1|X) &= f(X'\beta) 
+    \end{align}
+    \item Estimamos los parámetros usando MLE
     \medskip
-  \item Thus, there is a trade-off between what to use
-  \medskip
-    \begin{itemize}
-      \item We tend to use k-fold CV with (K = 5 and K = 10)
-      \item It has been empirically shown that they yield test error rate estimates that suffer neither from excessively high bias, nor from very high variance Kohavi (1995)
-    \end{itemize}
-\end{itemize}
+    \item Podemos recobrar fácilmente las predicciones:
+  \end{itemize}
 
+
+\begin{align}
+p(y=1|X)=\frac{exp(\hat{\beta}_0 +\hat{\beta}_1 x_1 + \dots +\hat{\beta}_p x_p)}{1+exp(\hat{\beta}_0 +\hat{\beta}_1 x_1 + \dots +\hat{\beta}_p x_p)}
+\end{align}
 
 \end{frame}
-
-
-
 %----------------------------------------------------------------------%
 \begin{frame}[fragile]
-\frametitle{Spatial K-fold Cross-Validation }
+\frametitle{ROC}
 
+
+\begin{columns}[T] % align columns
+\begin{column}{.52\textwidth}
 \begin{itemize}
-  \scriptsize
-  \item 'First law' of geography states that points close to each other are, generally, more similar than points further away
-  \item Points are not statistically independent because training and test points in conventional CV are often too close to each other 
-  \item To alleviate this problem `spatial partitioning' is used to split the observations into spatially disjointed subsets 
+\item ROC ilustra el trade-off de las reglas de clasificación
+\medskip
+\item ROC nos da el $locus $ de los $TPR$ y $FPR$ para todos los posibles $c\in[0,1]$
+  \begin{itemize}
+    \item {\it Sensibilidad:} Tasas de Verdaderos Positivos
+    \item {\it 1-Especificidad:} Tasa de Falsos Positivos
+    
+  \end{itemize}
+\item Nos da la habilidad
+\begin{itemize}
+  \item Medir la capacidad predictiva del modelo
+  \medskip
+  \item $\,$
+  \medskip
 \end{itemize}
+\end{itemize}
+\end{column}  
+\hfill
+\begin{column}{.48\textwidth}
 
  \begin{figure}[H] \centering
             \captionsetup{justification=centering}
-              \includegraphics[scale=0.3]{figures/fig113.png}
-       \end{figure}
+              \includegraphics[scale=0.4]{figures/roc}                            
+ \end{figure}
+
+\end{column}
+\end{columns}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{ROC}
+
+
+
+\begin{columns}[T] % align columns
+\begin{column}{.52\textwidth}
+\begin{itemize}
+\item ROC ilustra el trade-off de las reglas de clasificación
+\medskip
+\item ROC nos da el $locus $ de los $TPR$ y $FPR$ para todos los posibles $c\in[0,1]$
+  \begin{itemize}
+    \item {\it Sensibilidad:} Tasas de Verdaderos Positivos
+    \item {\it 1-Especificidad:} Tasa de Falsos Positivos
+    
+  \end{itemize}
+\item Nos da la habilidad
+\begin{itemize}
+  \item Medir la capacidad predictiva del modelo
+  \medskip
+  \item Comparar entre modelos
+  
+\end{itemize}
+\end{itemize}
+\end{column}  
+\hfill
+\begin{column}{.48\textwidth}
+
+ \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.38]{figures/unnamed-chunk-11-1.pdf}
+ \end{figure}
+
+\end{column}
+\end{columns}
+
+
 
 \end{frame}
 
 %----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{Review \& Next Steps}
+\frametitle{Revisión }
   
-\begin{itemize} 
-    \item Today:
+Hoy
     \medskip
     \begin{itemize} 
-         \item Overfit and out of Sample Prediction
+        \item Regularización
          \medskip
-         \item Resampling Methods 
+         \begin{itemize}  
+           \item Lasso 
+           \medskip
+           \item Ridge
+        \end{itemize}   
+         \item Clasificación
+         \medskip
         \begin{itemize}  
-            \item Validation Set Approach 
-            \medskip
-            \item LOOCV
-            \medskip
-            \item K-fold Cross-Validation
-      \end{itemize}
+           \item Vecinos Cercanos
+           \medskip
+           \item Logit
+           \medskip
+           \item ROC
+        \end{itemize}
     \end{itemize}
-  	\bigskip  
-
-	\item  Next class: Model selection and Regularization
+  
 
 
 
 
-\end{itemize}
+
 \end{frame}
 
 %----------------------------------------------------------------------%
-\section{Further Readings}
+\section{Break}
+\begin{frame}
+\frametitle{}
+
+\begin{centering}
+\huge
+\textcolor{andesred}{Volvemos en 5 mins con \texttt{R} }
+
+\end{centering}
+
+\end{frame}
+%----------------------------------------------------------------------%
+\section{\texttt{R para ML}}
 %----------------------------------------------------------------------%
 \begin{frame}
-\frametitle{Further Readings}
+\frametitle{R para ML}
 
-\begin{itemize}
-
-
-  \item Friedman, J., Hastie, T., \& Tibshirani, R. (2001). The elements of statistical learning (Vol. 1, No. 10). New York: Springer series in statistics.
-  \medskip
-  \item James, G., Witten, D., Hastie, T., \& Tibshirani, R. (2013). An introduction to statistical learning (Vol. 112, p. 18). New York: springer.
-  \medskip
-    \item Kohavi, R. (1995). A study of cross-validation and bootstrap for accuracy estimation and model selection. In Ijcai (Vol. 14, No. 2, pp. 1137-1145).
-  \medskip
-  \item Lovelace, R., Nowosad, J., \& Muenchow, J. (2019). Geocomputation with R. CRC Press. (Chapters 2 \& 6)
-\end{itemize}
+\begin{figure}[H] \centering
+  \centering
+  \includegraphics[scale=0.35]{figures/baticomputer_meme.jpg}
+  \\
+  \tiny photo from \url{https://www.dailydot.com/parsec/batman-1966-labels-tumblr-twitter-vine/}
+\end{figure}
 
 \end{frame}
-
-
-
-
-
-
 %----------------------------------------------------------------------%
 %----------------------------------------------------------------------%
 \end{document}
-%----------------------------------------------------------------------%
-%----------------------------------------------------------------------%
-
