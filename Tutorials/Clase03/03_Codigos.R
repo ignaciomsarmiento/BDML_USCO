@@ -19,7 +19,7 @@ library("caret") #ML
 # Lasso y Ridge -----------------------------------------------------------
 # # -----------------------------------------------------------------------
 data(swiss) #loads the data set
-
+?swiss
 set.seed(123) #set the seed for replication purposes
 glipse(swiss) #compact display
 
@@ -113,7 +113,7 @@ summary(credit)
 table(credit$foreign)
 table(credit$purpose)
 table(credit$rent)
-
+default<-credit$Default #define ahora va a servir despues
 
 credit<-credit %>% mutate(Default=factor(Default,levels=c(0,1),labels=c("No","Si")),
                           history=factor(history,levels=c("good","poor","terrible"),labels=c("buena","mala","terrible")),
@@ -121,7 +121,7 @@ credit<-credit %>% mutate(Default=factor(Default,levels=c(0,1),labels=c("No","Si
                           purpose=factor(purpose,levels=c("newcar","usedcar","goods/repair","edu", "biz" ),labels=c("auto_nuevo","auto_usado","bienes","educacion","negocios")))         
 
 
-require("gtsummary")
+require("gtsummary") #buen paquete 
 tbl_summary(credit)
 tbl_summary(credit,by = Default)
 
@@ -136,6 +136,8 @@ mylogit <- glm(Default~duration + amount + installment + age + factor(history) +
 summary(mylogit,type="text")
 
 
+pred<-predict(mylogit,newdata = credit, type = "response")
+summary(pred)
 
 ## what are our misclassification rates?
 rule <- 1/2 
@@ -143,31 +145,22 @@ rule <- 1/2
 sum( (pred>rule)[default==0] )/sum(pred>rule) ## false positive rate
 sum( (pred<rule)[default==1] )/sum(pred<rule) ## false negative rate
 
-
-
-sum( (pred>rule)[default==1] )/sum(default==1) ## sensitivity
+sum( (pred>rule)[default==1] )/sum(default==1) ## sensitivity 
 sum( (pred<rule)[default==0] )/sum(default==0) ## specificity
-
-
-
 
 ## what are our misclassification rates?
 rule <- 1/5 
-
 sum( (pred>rule)[default==0] )/sum(pred>rule) ## false positive rate
 sum( (pred<rule)[default==1] )/sum(pred<rule) ## false negative rate
 
-
-
-sum( (pred>rule)[default==1] )/sum(default==1) ## sensitivity
-sum( (pred<rule)[default==0] )/sum(default==0) ## specificity
+sum( (pred>rule)[default==1] )/sum(default==1) ## sensitivity: Tasa Verdaderos Positivos
+sum( (pred<rule)[default==0] )/sum(default==0) ## specificity: Tasa de Verdaderos Negativos
 
 
 ## roc curve and fitted distributions
 
 
-source("roc.R")
-
+source(here("Clase03/roc.R"))
 
 roc(p=pred, y=default, bty="n")
 ## our 1/5 rule cutoff
@@ -182,6 +175,10 @@ legend("bottomright",fill=c("red","blue"),
        legend=c("p=1/5","p=1/2"),bty="n",title="cutoff")
 
 
+
+
+
+# Caret y ML --------------------------------------------------------------
 
 
 #70% train
@@ -203,24 +200,6 @@ summary(mylogit)
 test$phat<- predict(mylogit, test, type="response")
 test$Default_hat<-ifelse(test$phat>.5,1,0)
 with(test,prop.table(table(Default,Default_hat)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
