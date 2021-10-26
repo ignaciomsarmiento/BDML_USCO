@@ -208,6 +208,7 @@ trainControl <- trainControl(
   summaryFunction = twoClassSummary
 )
 
+lambda_grid <- 10^seq(-2, 1, length = 100) #en la practica se suele usar una grilla de 200 o 300
 
 
 mylogit_caret <- train(
@@ -220,7 +221,7 @@ mylogit_caret <- train(
   preProcess = c("center", "scale")
 )
 
-print(mylogit_caret)
+
 
 
 predictTest <- data.frame(
@@ -236,8 +237,12 @@ with(predictTest,prop.table(table(obs,pred)))
 
 # Roc
 ##Logit
+?prediction
 library("ROCR") #Roc
-pred <- prediction(test$pred, test$Default) #roto =)!!!!
+predictTest<- predictTest %>% mutate(pred=ifelse(pred=="No",0,1),
+                                     obs=ifelse(obs=="No",0,1))
+pred <- prediction(predictTest$pred, predictTest$obs) #roto =)!!!!
+
 roc_ROCR <- performance(pred,"tpr","fpr")
 plot(roc_ROCR, main = "ROC curve", colorize = T)
 abline(a = 0, b = 1)
@@ -246,13 +251,6 @@ abline(a = 0, b = 1)
 auc_ROCR <- performance(pred, measure = "auc")
 auc_ROCR@y.values[[1]]
 
-?prediction
-pred_lasso <- prediction(predictTest$pred, predictTest$obs)
-roc_ROCR <- performance(pred,"tpr","fpr")
-
-plot(roc_ROCR, main = "ROC curve", colorize = FALSE, col="red")
-plot(roc_mylda,add=TRUE, colorize = FALSE, col="blue")
-abline(a = 0, b = 1)
 
 
 
@@ -262,8 +260,8 @@ abline(a = 0, b = 1)
 #install.packages("gamlr")
 require("gamlr")
 str(credit$foreign)
-source(here("Clase03/naref.R"))
-credit<-naref(credit)
+#source(here("Clase03/naref.R"))
+#credit<-naref(credit)
 
 credx <- model.matrix( Default ~ .^2, data=credit)[,-1]
 dim(credx)
@@ -306,3 +304,4 @@ sum(coef(credscore$gamlr, s=which.min(BIC(credscore$gamlr)))!=0) # BIC
 pred <- predict(credscore$gamlr, credx, type="response")
 pred <- drop(pred) # remove the sparse Matrix formatting
 boxplot(pred ~ default, xlab="default", ylab="prob of default", col=c("pink","dodgerblue"))
+
