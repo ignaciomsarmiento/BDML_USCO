@@ -11,9 +11,7 @@ library("here") #project location
 library("tidyverse") #for data wrangling
 library("caret") #ML
 
-
-
-
+#install.packages("caret",dependencies = TRUE)
 
 # # -----------------------------------------------------------------------
 # Lasso y Ridge -----------------------------------------------------------
@@ -21,39 +19,59 @@ library("caret") #ML
 data(swiss) #loads the data set
 ?swiss
 set.seed(123) #set the seed for replication purposes
-glipse(swiss) #compact display
+glimpse(swiss) #compact display
+
 
 #hold-up sample
 index <- createDataPartition(swiss$Fertility, p = 0.8, list = FALSE)
-treain <- swiss[index,]
+train <- swiss[index,]
 holdout  <- swiss[-index,]
 
 
-
+#OLS
 ols <- train(Fertility ~ .,   # model to fit
-             data = swiss,                        
+             data = train,                        
              trControl = trainControl(method = "cv", number = 5),
              method = "lm")                     
 
 print(ols)
 
 
+#Lasso
 
-lambda <- 10^seq(-2, 3, length = 100)
+#Defino la grilla de los lambda
+lambda_grid <- 10^seq(-2, 0.001, length = 100) #en la practica se suele usar una grilla de 200 o 300
 
-lasso <- train(
-  Fertility ~., data = swiss, method = "glmnet",
-  trControl = trainControl("cv", number = 5),
-  tuneGrid = expand.grid(alpha = 1, lambda=lambda), preProcess = c("center", "scale")
+min(lambda_grid)
+max(lambda_grid)
+
+#install.packages("glmnet") #necesario tener instalado este paquete
+
+#Elastic Net funciona muy bien cuando k>n
+#sum (y-hat(y))^2 + alpha(lambda_1 |beta|) + (1-alpha) (lambda_2 (\beta)^2) (naive)
+#elastic net rescala
+
+lasso <- train(Fertility ~., 
+               data = train, 
+               method = "glmnet",
+              trControl = trainControl("cv", number = 5),
+              tuneGrid = expand.grid(alpha = 1, lambda=lambda_grid),
+              preProcess = c("center", "scale")
 )
 print(lasso)
 
+lasso$bestTune
+
+db<-lasso$results
+
+plot(db$lambda,db$RMSE)
 
 
 ridge <- train(
   Fertility ~., data = swiss, method = "glmnet",
   trControl = trainControl("cv", number = 5),
-  tuneGrid = expand.grid(alpha = 0,lambda=lambda), preProcess = c("center", "scale")
+  tuneGrid = expand.grid(alpha = 0,lambda=lambda), 
+  preProcess = c("center", "scale")
 )
 print(ridge)
 
@@ -64,10 +82,9 @@ models <- list(ols=ols,ridge = ridge, lasso = lasso)
 resamples(models) %>% summary( metric = "RMSE")
 
 
-
+#Para sacar el grafico de clase
 coef_lasso<-predict(lasso$finalModel, type = "coef", mode = "fraction", s = as.numeric(lasso$bestTune))
 coef_ridge<-predict(ridge$finalModel, type = "coef", mode = "fraction", s = as.numeric(ridge$bestTune))
-
 
 ols <- train(Fertility ~ ., data = swiss,
              method="lm",
@@ -75,8 +92,6 @@ ols <- train(Fertility ~ ., data = swiss,
              preProcess = c("center", "scale"))
 
 coef_ols<-ols$finalModel$coefficients
-
-
 
 
 cl<-data.frame(name=rownames(coef_lasso),coef=as.matrix(coef_lasso)[,1],model="Lasso")
@@ -95,17 +110,14 @@ ggplot(db_coefs, aes(x=name,y=coef,group=model,col=model)) +
   xlab("predictores") +
   ylab("coeficientes") +
   theme_bw() 
-
-
-
+dev.off()
 
 
 # # -----------------------------------------------------------------------
-# Logit -------------------------------------------------------------------
+# Classification -------------------------------------------------------------------
 # # -----------------------------------------------------------------------
 
 #Read the data
-
 set.seed(101010) #sets a seed 
 credit<-readRDS(here("credit_class.rds"))
 glimpse(credit)
@@ -113,8 +125,9 @@ summary(credit)
 table(credit$foreign)
 table(credit$purpose)
 table(credit$rent)
-default<-credit$Default #define ahora va a servir despues
+default<-credit$Default #defino ahora va a servir despues
 
+#mutacion de datos
 credit<-credit %>% mutate(Default=factor(Default,levels=c(0,1),labels=c("No","Si")),
                           history=factor(history,levels=c("good","poor","terrible"),labels=c("buena","mala","terrible")),
                           foreign=factor(foreign,levels=c("foreign","german"),labels=c("extranjero","aleman")),
@@ -132,7 +145,7 @@ plot(Default ~ history, data=credit, col=c(8,2), ylab="Default") ## surprise!
 
 
 
-mylogit <- glm(Default~duration + amount + installment + age + factor(history) + factor(purpose) + factor(foreign) + factor(rent), data = credit, family = "binomial")
+mylogit <- glm(Default~., data = credit, family = "binomial")
 summary(mylogit,type="text")
 
 
@@ -140,14 +153,15 @@ pred<-predict(mylogit,newdata = credit, type = "response")
 summary(pred)
 
 ## what are our misclassification rates?
-rule <- 1/2 
+rule <- 1/2 #Naive Bayes
 
 sum( (pred>rule)[default==0] )/sum(pred>rule) ## false positive rate
 sum( (pred<rule)[default==1] )/sum(pred<rule) ## false negative rate
 
-sum( (pred>rule)[default==1] )/sum(default==1) ## sensitivity 
-sum( (pred<rule)[default==0] )/sum(default==0) ## specificity
+sum( (pred>rule)[default==1] )/sum(default==1) ## sensitivity : Tasa Verdaderos Positivos
+sum( (pred<rule)[default==0] )/sum(default==0) ## specificity: Tasa de Verdaderos Negativos
 
+prop.table(table(default))
 ## what are our misclassification rates?
 rule <- 1/5 
 sum( (pred>rule)[default==0] )/sum(pred>rule) ## false positive rate
@@ -179,29 +193,11 @@ legend("bottomright",fill=c("red","blue"),
 
 
 # Caret y ML --------------------------------------------------------------
-
-
 #70% train
-indic<-sample(1:nrow(credit),floor(.7*nrow(credit)))
-
+indic<-sample(1:nrow(credit),floor(.7*nrow(credit))) #otra forma distinta
 #Partition the sample
 train<-credit[indic,]
 test<-credit[-indic,]
-head(credit)
-dim(credit)
-
-
-
-
-mylogit <- glm(Default~duration + amount + installment + age + factor(history) + factor(purpose) + factor(foreign) + factor(rent), data = train, family = "binomial")
-summary(mylogit)
-
-
-test$phat<- predict(mylogit, test, type="response")
-test$Default_hat<-ifelse(test$phat>.5,1,0)
-with(test,prop.table(table(Default,Default_hat)))
-
-
 
 
 
@@ -215,11 +211,13 @@ trainControl <- trainControl(
 
 
 mylogit_caret <- train(
-  Default ~., data = train, method = "glmnet",
+  Default ~., data = train, 
+  method = "glmnet",
   trControl = trainControl,
   family = "binomial", 
   metric = "ROC",
-  tuneGrid = expand.grid(alpha = 0,lambda=lambda), preProcess = c("center", "scale")
+  tuneGrid = expand.grid(alpha = 0,lambda=lambda_grid), 
+  preProcess = c("center", "scale")
 )
 
 print(mylogit_caret)
@@ -233,14 +231,13 @@ predictTest <- data.frame(
 
 twoClassSummary(data = predictTest, lev = levels(predictTest$obs))
 
-with(test,prop.table(table(Default,Default_hat)))
+
 with(predictTest,prop.table(table(obs,pred)))
 
 # Roc
 ##Logit
-
 library("ROCR") #Roc
-pred <- prediction(test$phat, test$Default)
+pred <- prediction(test$pred, test$Default) #roto =)!!!!
 roc_ROCR <- performance(pred,"tpr","fpr")
 plot(roc_ROCR, main = "ROC curve", colorize = T)
 abline(a = 0, b = 1)
@@ -260,9 +257,10 @@ abline(a = 0, b = 1)
 
 
 
-
+# Mas avanzada como elegir un lambda automaticamente y explotar la sparcity de la matriz
 ## build a design matrix 
 #install.packages("gamlr")
+require("gamlr")
 str(credit$foreign)
 source(here("Clase03/naref.R"))
 credit<-naref(credit)
@@ -273,8 +271,8 @@ colnames(credx)[c(1,2,16,17,18)]
 
 
 
-
-credx <- sparse.model.matrix( Default ~ .^2, data=credit)[,-1]
+require("Matrix")
+credx <- sparse.model.matrix( Default ~ .^2, data=credit)[,-1] #matrices sparse
 head(credx)
 
 
