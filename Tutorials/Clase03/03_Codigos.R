@@ -304,4 +304,5 @@ sum(coef(credscore$gamlr, s=which.min(BIC(credscore$gamlr)))!=0) # BIC
 pred <- predict(credscore$gamlr, credx, type="response")
 pred <- drop(pred) # remove the sparse Matrix formatting
 boxplot(pred ~ default, xlab="default", ylab="prob of default", col=c("pink","dodgerblue"))
-
+require("wru")
+citation(package = "wru")

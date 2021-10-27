@@ -184,10 +184,170 @@
 
 \end{frame}
 
+%----------------------------------------------------------------------%
+\section{Recap}
+\subsection{Regularización}
+%----------------------------------------------------------------------%
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Recap: Regularization}
+
+
+\begin{itemize}
+\item Para $\lambda \geq 0$ dado, consideremos el siguiente problema de optimización
+\item Lasso:
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-\beta_0 - x_{i1}\beta_1 - \dots - x_{ip}\beta_p)^2 + \lambda \sum_{j=1}^p |\beta_j| 
+\end{align}
+\item Ridge:
+\begin{align}
+min_{\beta} E(\beta) = \sum_{i=1}^n (y_i-\beta_0 - x_{i1}\beta_1 - \dots - x_{ip}\beta_p)^2 + \lambda \sum_{j=1}^p (\beta_j)^2
+\end{align}
+\end{itemize}
+
+\end{frame}
+
+
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Recap: Regularization}
+
+\begin{itemize}
+\item Elastic net: (lo que hace R)
+\end{itemize}
+
+\begin{align}
+min_{\beta} NEL(\beta) &= \sum_{i=1}^n (y_i-\beta_0 - \sum_{j=1}^p x_{ij}\beta_j)^2  + \alpha\left(\lambda \sum_{j=1}^p |\beta_j|\right) + (1-\alpha)\left(\lambda \sum_{j=1}^p (\beta_j)^2\right)
+\end{align}
+
+
+\begin{itemize}
+ \item Si $\alpha=1$ Lasso
+ \item Si $\alpha=0$ Rigdge
+ \item $\hat{\beta}_{EN}= \frac{1}{\sqrt{1+\lambda_2}}\hat{\beta}_{naive\,EN}$
+ 
+\end{itemize}
+
+\end{frame}
+\subsection{Classificación}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{Classificación}
+
+\begin{itemize}
+  \item El objetivo es asignar a clases:
+\medskip
+  \begin{quote}
+  \centering
+      Dado un nuevo conjunto de predictores $X$, \\ 
+      ¿cuál es nuestra mejor predicción de la categoría a la que pertenece?
+    \end{quote}
+    \item La clave estaba en estimar probabilidades:
+
+\medskip
+    \begin{align}
+    Pr(y=1|X) &= f(X'\beta) 
+    \end{align}
+\medskip
+  \item y asignar una regla de corte 
+\end{itemize}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{ROC}
+
+
+\begin{columns}[T] % align columns
+\begin{column}{.52\textwidth}
+\begin{itemize}
+\item ROC ilustra el trade-off de las reglas de clasificación
+\medskip
+\item ROC nos da el $locus $ de los $TPR$ y $FPR$ para todos los posibles $c\in[0,1]$
+  \begin{itemize}
+    \item {\it Sensibilidad:} Tasas de Verdaderos Positivos
+    \item {\it 1-Especificidad:} Tasa de Falsos Positivos
+    
+  \end{itemize}
+\item Nos da la habilidad
+\begin{itemize}
+  \item Medir la capacidad predictiva del modelo
+  \medskip
+  \item $\,$
+  \medskip
+\end{itemize}
+\end{itemize}
+\end{column}  
+\hfill
+\begin{column}{.48\textwidth}
+
+ \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.4]{figures/roc}                            
+ \end{figure}
+
+\end{column}
+\end{columns}
+
+
+\end{frame}
+%----------------------------------------------------------------------%
+\begin{frame}[fragile]
+\frametitle{ROC}
+
+
+
+\begin{columns}[T] % align columns
+\begin{column}{.52\textwidth}
+\begin{itemize}
+\item ROC ilustra el trade-off de las reglas de clasificación
+\medskip
+\item ROC nos da el $locus $ de los $TPR$ y $FPR$ para todos los posibles $c\in[0,1]$
+  \begin{itemize}
+    \item {\it Sensibilidad:} Tasas de Verdaderos Positivos
+    \item {\it 1-Especificidad:} Tasa de Falsos Positivos
+    
+  \end{itemize}
+\item Nos da la habilidad
+\begin{itemize}
+  \item Medir la capacidad predictiva del modelo
+  \medskip
+  \item Comparar entre modelos
+  
+\end{itemize}
+\end{itemize}
+\end{column}  
+\hfill
+\begin{column}{.48\textwidth}
+
+ \begin{figure}[H] \centering
+            \captionsetup{justification=centering}
+              \includegraphics[scale=0.38]{figures/unnamed-chunk-11-1.pdf}
+ \end{figure}
+
+\end{column}
+\end{columns}
+
+
+
+\end{frame}
+
 
 %----------------------------------------------------------------------%
 \section{Más allá de la linealidad}
 %----------------------------------------------------------------------%
+
+\begin{frame}[fragile]
+\frametitle{}
+
+
+\centering
+{\huge \textcolor{andesred}{Más allá de la linealidad}}
+
+
+
+\end{frame}
 %----------------------------------------------------------------------%
 \begin{frame}
 \frametitle{Más allá de la linealidad}
@@ -494,23 +654,30 @@ R_1(j,s)=\{X|X_j\leq s\} \,\,\, \& \,\,\, R_2(j,s)=\{X|X_j > s\}
 \frametitle{Árboles: cómo lo hacen?}
 
 \begin{itemize}
-\item Mecanismo de búsqueda para $T_\alpha$ ( pruning óptimo dado  $\alpha$).
+  \item Mecanismo de búsqueda para $T_\alpha$ ( pruning óptimo dado  $\alpha$).
+
+
+    \begin{quote}
+    \centering
+    Resultado: para cada  $\alpha$ hay un sub-árbol único  $T_\alpha$ que minimiza  C$\alpha$ (T).
+    \end{quote}
+
 \begin{itemize}
-\item Resultado: para cada  $\alpha$ hay un sub-árbol único  $T_\alpha$ que minimiza  C$\alpha$ (T).
+
 \medskip
-\item Ramas mas débiles: eliminar sucesivamente las ramas que producen un aumento mínimo en  $\sum_{m=1}^{[T]} n_m  Q_m (T)$
+\item Vamos a eliminar sucesivamente las ramas que producen un aumento mínimo en  $\sum_{m=1}^{[T]} n_m  Q_m (T)$
 \medskip
-\item Idea: remover ramas es colapsar, esto aumenta la heterogenidad, ergo, colapsamos las particiones menos necesarias.
+\item Donde remover ramas es colapsar, esto aumenta la heterogenidad, ergo, colapsamos las particiones menos necesarias.
 \medskip
 \item Esto eventualmente colapsa hasta el nodo inicial (stump) pero va a través de una sucesión de árboles, que va del mas grande al mas pequeño cortando las ramas mas débiles.
-
+\end{itemize}
 \medskip
 \item Breiman et al. (1984): $T_\alpha$ pertenece a esta sequencia. 
 \medskip
 \item Uno puede enfocar la búsqueda en esta sucesión de sub-árboles.
 \medskip
 \item Elección de $\alpha$: cross validation.
-\end{itemize}
+
 
 \end{itemize}
 
@@ -602,17 +769,22 @@ R_1(j,s)=\{X|X_j\leq s\} \,\,\, \& \,\,\, R_2(j,s)=\{X|X_j > s\}
 
 \begin{itemize}
   \item Problema con CART: varianza alta.
+  \medskip
    \item Podemos mejorar mucho el rendimiento mediante la agregación 
+   \medskip
    \item Bagging:
     \begin{itemize}
        \item Obtenga repetidamente muestras aleatorias $(X_i^b,Y_i^b)_{i=1}^N$ de la muestra observada.
+       \medskip
        \item Para cada muestra de arranque, ajuste un árbol de regresión $\hat{f}^b(x)$
+       \medskip
        \item Promedie las muestras de bootstrap 
         \begin{align}
          \hat{f}_{bag} =\frac{1}{B}\sum_{b=1}^B \hat{f}^b(x)
         \end{align}
       \end{itemize}
   \item Básicamente estamos suavizando las predicciones.
+  \medskip
   \item Idea: la varianza del promedio es menor que la de una sola predicción.
   \end{itemize}
 
