@@ -727,7 +727,7 @@ E(x_i) = \delta_{i1} F_1 + \dots + \delta_{iK} F_K
 \item The analogous topic model representation, implied by the above equation, is
 \medskip
 \begin{align}
-E(x_i) = \omega_{i1} \theta_1 + \dots + \omega_{iK} \theta_K
+E(\frac{x_i}{m_i}) = \omega_{i1} \theta_1 + \dots + \omega_{iK} \theta_K
 \end{align}
 
  
@@ -862,40 +862,32 @@ E(x_i) = \omega_{i1} \theta_1 + \dots + \omega_{iK} \theta_K
 \item Word embeddings preserve semantic relationships.
   \begin{itemize}
     \item Words with similar meaning have similar representations.
+    \medskip
     \item Dimensions induced by word differences can be used to identify cultural concepts 
   \end{itemize}
   \item For example, the vector difference \texttt{man - woman} isolates a gender dimension in the space.
-
+  \medskip
+  \item  The dimensions are useful because they produce quantitative measures of similarity between the associated concepts and specific words in the corpus. 
   \end{itemize}
 
 
 \end{frame}
-%----------------------------------------------------------------------%
-\begin{frame}
-\frametitle{Word Embedding }
-
-\begin{itemize}
-  \item For example, the vector difference \texttt{man - woman} isolates a gender dimension in the space.
-\begin{itemize}
-
-   \item  The dimensions are useful because they produce quantitative measures of similarity between the associated concepts and specific words in the corpus. 
-   \item In this case, we can understand the gender connotation of a given word by taking the cosine of the angle between the vector representation of the word and the differenced vector representing the gender dimension (why?)
-
-\end{itemize}
-\end{itemize}
-\end{frame}
 
 %----------------------------------------------------------------------%
 \begin{frame}
 \frametitle{Word Embedding }
 
 \begin{itemize}
-\item Recall the geometric interpretation of the angle between two vectors defined using an inner product
+  \item In this case, we can understand the gender connotation of a given word by taking the cosine of the angle between the vector representation of the word and the differenced vector representing the gender dimension 
+  \medskip 
+\item This is because the cosine of the angle, can be interpreted as a similarity measure.
+\medskip
+\item The similarity ranges from -1 meaning exactly opposite, to 1 meaning exactly the same, with 0 indicating orthogonality or decorrelation, while in-between values indicate intermediate similarity or dissimilarity. 
 \end{itemize}
 
   \begin{figure}[H] \centering
             \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/Inner_product_angle.png}
+              \includegraphics[scale=0.14]{figures/Inner_product_angle.png}
               
  \end{figure}
 
@@ -925,7 +917,7 @@ E(x_i) = \omega_{i1} \theta_1 + \dots + \omega_{iK} \theta_K
 
   \begin{figure}[H] \centering
             \captionsetup{justification=centering}
-              \includegraphics[scale=0.4]{figures/bolukbasi}
+              \includegraphics[scale=0.3]{figures/bolukbasi}
               
  \end{figure}
 
