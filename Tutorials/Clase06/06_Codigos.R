@@ -406,5 +406,4 @@ head(sort(cos_sim_test[,1], decreasing = T), 3)
 
 
 
-#
-One can play with stuff like this all day. For example, you may find that a Romeo without love is a Tybalt!
+#One can play with stuff like this all day. For example, you may find that a Romeo without love is a Tybalt!
