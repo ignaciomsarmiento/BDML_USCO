@@ -11,23 +11,19 @@ library("tidyverse") #for data wrangling
 
 
 
-
-
 # Word Embedings  ---------------------------------------------------------
 library("text2vec")
-load('shakes_words_df_4text2vec.RData')
+help(package="text2vec")
+load('Clase07/shakes_words_df_4text2vec.RData')
 head(shakes_words)
 
 
-
-
 shakes_words_ls <- list(shakes_words$word)
-it <- itoken(shakes_words_ls, progressbar = FALSE)
+it <- itoken(shakes_words_ls, progressbar = TRUE)
 shakes_vocab <- create_vocabulary(it)
 shakes_vocab <- prune_vocabulary(shakes_vocab, term_count_min= 5)
 
 #Let’s take a look at what we have at this point. We’ve just created word counts, that’s all the vocabulary object is.
-
 
 head(shakes_vocab)
 
@@ -37,11 +33,9 @@ head(shakes_vocab)
 # maps words to indices
 vectorizer <- vocab_vectorizer(shakes_vocab)
 
-
-
 # use window of 10 for context words
 shakes_tcm <- create_tcm(it, vectorizer, skip_grams_window = 10)
-
+View(shakes_tcm)
 
 #Note that such a matrix will be extremely sparse. Most words do not go with other words in the grand scheme of things. So when they do, it usually matters.
 
@@ -50,13 +44,10 @@ shakes_tcm <- create_tcm(it, vectorizer, skip_grams_window = 10)
 #In this setting, we can think of our word of interest as the target, and any/all other words (within the window) as the context. Word vectors are learned for both.
 
 glove <- GlobalVectors$new(rank = 50, x_max = 10)
-shakes_wv_main = glove$fit_transform(shakes_tcm, n_iter = 10, convergence_tol = 0.01, n_threads = 8)
-
+shakes_wv_main = glove$fit_transform(shakes_tcm, n_iter = 20, convergence_tol = 0.001, n_threads = 8)
 
 dim(shakes_wv_main)
 shakes_wv_context <- glove$components
-
-
 
 dim(shakes_wv_context)
 
@@ -118,11 +109,14 @@ head(sort(cos_sim_test[,1], decreasing = T), 3)
 
 
 
+test <- shakes_word_vectors["romeo", , drop = F] - 
+  shakes_word_vectors["love", , drop = F] 
+
+cos_sim_test <- sim2(x = shakes_word_vectors, y = test, method = "cosine", norm = "l2")
+head(sort(cos_sim_test[,1], decreasing = T), 3)
+
 
 # Networks ----------------------------------------------------------------
-
-
-
 #packages
 library(tensorflow)
 library(keras)
@@ -133,7 +127,7 @@ cifar <- dataset_cifar10()
 #fix names
 class_names <- c('airplane', 'automobile', 'bird', 'cat', 'deer',
                  'dog', 'frog', 'horse', 'ship', 'truck')
-
+class_names
 
 index <- 1:30
 
